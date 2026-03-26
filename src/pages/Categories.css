@@ -1,0 +1,27 @@
+.categories-page {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.categories-page h2 {
+    margin-bottom: 20px;
+}
+
+.categories-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.categories-table th {
+    background: #2e7d32;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.categories-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}

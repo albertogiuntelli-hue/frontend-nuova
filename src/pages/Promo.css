@@ -1,0 +1,47 @@
+/* ===========================
+   STILE PAGINA PROMO / PRODOTTI
+   Usato da entrambe le pagine
+=========================== */
+
+.promo-page {
+    padding: 20px;
+}
+
+.promo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.promo-table th {
+    background: #f0f0f0;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+.promo-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 🔥 COLONNA IMMAGINE PIÙ LARGA */
+.promo-table th:nth-child(4),
+.promo-table td:nth-child(4) {
+    width: 140px;
+}
+
+/* 🔥 IMMAGINE RIDOTTA E SEMPRE VISIBILE */
+.promo-img {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 4px;
+}

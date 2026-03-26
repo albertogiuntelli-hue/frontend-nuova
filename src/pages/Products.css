@@ -1,0 +1,35 @@
+.products-page {
+    padding: 20px;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.products-table th {
+    background: #f0f0f0;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+.products-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 4px;
+}

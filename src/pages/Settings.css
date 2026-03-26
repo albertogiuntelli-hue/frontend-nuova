@@ -1,0 +1,12 @@
+.settings-container {
+    padding: 20px;
+}
+
+.settings-container h1 {
+    margin-bottom: 10px;
+}
+
+.settings-container p {
+    font-size: 1rem;
+    line-height: 1.4;
+}
