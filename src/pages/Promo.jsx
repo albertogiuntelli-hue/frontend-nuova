@@ -10,7 +10,6 @@ export default function Promo() {
         const load = async () => {
             try {
                 const data = await getPromo();
-                console.log("DATI PROMO:", data);
                 setPromo(data);
             } catch (error) {
                 console.error("Errore caricamento promo:", error);
@@ -32,7 +31,7 @@ export default function Promo() {
                         <th>Codice</th>
                         <th>Descrizione</th>
                         <th>Prezzo</th>
-                        <th>Img</th>
+                        <th>Immagine</th>
                     </tr>
                 </thead>
 
@@ -42,15 +41,17 @@ export default function Promo() {
                             <td>{p.codice || "—"}</td>
                             <td>{p.descrizione || p.nome || "—"}</td>
                             <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
-                            <td>
+
+                            {/* LOGO FISSO SEMPRE */}
+                            <td style={{ textAlign: "center" }}>
                                 <img
                                     src="/plusmarket-logo.png"
-                                    alt="logo"
+                                    alt="Logo PlusMarket"
                                     style={{
                                         width: "40px",
                                         height: "40px",
                                         objectFit: "contain",
-                                        background: "#fff",
+                                        backgroundColor: "#fff",
                                         borderRadius: "4px",
                                         padding: "2px"
                                     }}
