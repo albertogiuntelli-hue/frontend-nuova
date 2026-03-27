@@ -8,7 +8,7 @@ export default function Products() {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+            const res = await axios.get("https://backend-nuova-production.up.railway.app/api/products");
             setProducts(res.data);
         } catch (error) {
             console.error("Errore caricamento prodotti:", error);
@@ -46,7 +46,6 @@ export default function Products() {
                                     ? p.descrizione
                                     : p.nome || "—";
 
-                            // 🔥 fallback immagine SICURO (esiste al 100%)
                             const imageSrc = "/logo.jpg";
 
                             return (
