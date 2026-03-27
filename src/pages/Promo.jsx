@@ -1,4 +1,3 @@
-// frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
 import "./Promo.css";
@@ -11,6 +10,7 @@ export default function Promo() {
         const load = async () => {
             try {
                 const data = await getPromo();
+                console.log("DATI PROMO:", data);
                 setPromo(data);
             } catch (error) {
                 console.error("Errore caricamento promo:", error);
@@ -22,17 +22,6 @@ export default function Promo() {
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
-    // Fallback immagine SEMPRE attivo
-    const getImage = () => "/plusmarket-logo.png";
-
-    // Pulizia descrizione
-    const cleanText = (txt) => {
-        if (!txt) return "—";
-        const t = txt.trim();
-        if (t === "" || t.toLowerCase() === "null") return "—";
-        return t;
-    };
-
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
@@ -40,43 +29,35 @@ export default function Promo() {
             <table className="promo-table">
                 <thead>
                     <tr>
-                        <th style={{ width: "80px" }}>Codice</th>
+                        <th>Codice</th>
                         <th>Descrizione</th>
-                        <th style={{ width: "70px" }}>Prezzo</th>
-                        <th style={{ width: "55px", textAlign: "center" }}>Img</th>
+                        <th>Prezzo</th>
+                        <th>Img</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {promo
-                        .filter(p => p.codice && p.codice.toLowerCase() !== "codice articolo")
-                        .map((p, index) => {
-                            const descrizione = cleanText(p.descrizione || p.nome);
-
-                            return (
-                                <tr key={index}>
-                                    <td>{p.codice}</td>
-                                    <td>{descrizione}</td>
-                                    <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
-
-                                    <td style={{ textAlign: "center" }}>
-                                        <img
-                                            src={getImage()}
-                                            alt={descrizione}
-                                            style={{
-                                                width: "40px",
-                                                height: "40px",
-                                                objectFit: "contain",
-                                                borderRadius: "4px",
-                                                backgroundColor: "#fff",
-                                                padding: "1px",
-                                                display: "inline-block"
-                                            }}
-                                        />
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                    {promo.map((p, index) => (
+                        <tr key={index}>
+                            <td>{p.codice || "—"}</td>
+                            <td>{p.descrizione || p.nome || "—"}</td>
+                            <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
+                            <td>
+                                <img
+                                    src="/plusmarket-logo.png"
+                                    alt="logo"
+                                    style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        objectFit: "contain",
+                                        background: "#fff",
+                                        borderRadius: "4px",
+                                        padding: "2px"
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
