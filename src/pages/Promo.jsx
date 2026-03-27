@@ -22,10 +22,10 @@ export default function Promo() {
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
-    // Funzione che decide quale immagine mostrare
+    // Stessa logica di Prodotti
     const getImage = (img) => {
         if (!img || img.trim() === "" || img.toLowerCase() === "null") {
-            return "plusmarket-logo.png"; // percorso relativo → FUNZIONA SU NETLIFY
+            return "/plusmarket-logo.png"; // stesso percorso usato in Prodotti
         }
         return img;
     };
@@ -56,12 +56,13 @@ export default function Promo() {
                                     src={getImage(p.image)}
                                     alt="Immagine prodotto"
                                     style={{
-                                        width: "40px",
-                                        height: "40px",
+                                        width: "60px",        // ← STESSA DIMENSIONE DI PRODOTTI
+                                        height: "60px",       // ← STESSA DIMENSIONE DI PRODOTTI
                                         objectFit: "contain",
                                         backgroundColor: "#fff",
-                                        borderRadius: "4px",
-                                        padding: "2px"
+                                        borderRadius: "6px",
+                                        padding: "4px",
+                                        border: "1px solid #ddd" // ← STESSO BORDO DI PRODOTTI
                                     }}
                                 />
                             </td>
