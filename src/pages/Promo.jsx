@@ -22,18 +22,15 @@ export default function Promo() {
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
-    // Funzione che valida l'immagine
-    const getImage = (img) => {
-        if (!img) return "/plusmarket-logo.png";
-        if (typeof img !== "string") return "/plusmarket-logo.png";
+    // Fallback immagine SEMPRE attivo
+    const getImage = () => "/plusmarket-logo.png";
 
-        const trimmed = img.trim();
-        if (trimmed === "" || trimmed.toLowerCase() === "null") return "/plusmarket-logo.png";
-
-        // Se contiene un percorso locale → fallback
-        if (trimmed.includes("C:\\") || trimmed.includes("C:/")) return "/plusmarket-logo.png";
-
-        return trimmed;
+    // Pulizia descrizione
+    const cleanText = (txt) => {
+        if (!txt) return "—";
+        const t = txt.trim();
+        if (t === "" || t.toLowerCase() === "null") return "—";
+        return t;
     };
 
     return (
@@ -43,9 +40,9 @@ export default function Promo() {
             <table className="promo-table">
                 <thead>
                     <tr>
-                        <th>Codice</th>
+                        <th style={{ width: "80px" }}>Codice</th>
                         <th>Descrizione</th>
-                        <th>Prezzo</th>
+                        <th style={{ width: "70px" }}>Prezzo</th>
                         <th style={{ width: "55px", textAlign: "center" }}>Img</th>
                     </tr>
                 </thead>
@@ -54,12 +51,7 @@ export default function Promo() {
                     {promo
                         .filter(p => p.codice && p.codice.toLowerCase() !== "codice articolo")
                         .map((p, index) => {
-                            const descrizione =
-                                p.descrizione?.trim() !== ""
-                                    ? p.descrizione
-                                    : p.nome || "—";
-
-                            const imageSrc = getImage(p.image);
+                            const descrizione = cleanText(p.descrizione || p.nome);
 
                             return (
                                 <tr key={index}>
@@ -69,7 +61,7 @@ export default function Promo() {
 
                                     <td style={{ textAlign: "center" }}>
                                         <img
-                                            src={imageSrc}
+                                            src={getImage()}
                                             alt={descrizione}
                                             style={{
                                                 width: "40px",
