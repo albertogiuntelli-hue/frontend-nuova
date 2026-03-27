@@ -45,8 +45,8 @@ export default function Promo() {
                                     ? p.descrizione
                                     : p.nome || "—";
 
-                            // 🔥 fallback immagine corretto
-                            const imageSrc = p.image || "/images/plusmarket-logo.png";
+                            // Fallback corretto: il file esiste in /public
+                            const imageSrc = p.image || "/plusmarket-logo.png";
 
                             return (
                                 <tr key={index}>
@@ -76,3 +76,4 @@ export default function Promo() {
         </div>
     );
 }
+
