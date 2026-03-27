@@ -33,8 +33,8 @@ export default function Promo() {
                         <th>Descrizione</th>
                         <th>Prezzo</th>
 
-                        {/* Colonna immagine ottimizzata per mobile */}
-                        <th style={{ width: "60px", textAlign: "center" }}>Img</th>
+                        {/* Colonna immagine super compatta */}
+                        <th style={{ width: "55px", textAlign: "center" }}>Img</th>
                     </tr>
                 </thead>
 
@@ -47,7 +47,6 @@ export default function Promo() {
                                     ? p.descrizione
                                     : p.nome || "—";
 
-                            // Fallback sicuro
                             const imageSrc = p.image || "/plusmarket-logo.png";
 
                             return (
@@ -61,12 +60,12 @@ export default function Promo() {
                                             src={imageSrc}
                                             alt={descrizione}
                                             style={{
-                                                width: "45px",      // perfetto per mobile
-                                                height: "45px",
+                                                width: "40px",
+                                                height: "40px",
                                                 objectFit: "contain",
                                                 borderRadius: "4px",
                                                 backgroundColor: "#fff",
-                                                padding: "2px",
+                                                padding: "1px",
                                                 display: "inline-block"
                                             }}
                                         />
