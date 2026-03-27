@@ -32,7 +32,9 @@ export default function Promo() {
                         <th>Codice</th>
                         <th>Descrizione</th>
                         <th>Prezzo</th>
-                        <th>Immagine</th>
+
+                        {/* Colonna immagine ottimizzata per mobile */}
+                        <th style={{ width: "60px", textAlign: "center" }}>Img</th>
                     </tr>
                 </thead>
 
@@ -45,7 +47,7 @@ export default function Promo() {
                                     ? p.descrizione
                                     : p.nome || "—";
 
-                            // Fallback corretto: il file esiste in /public
+                            // Fallback sicuro
                             const imageSrc = p.image || "/plusmarket-logo.png";
 
                             return (
@@ -53,18 +55,19 @@ export default function Promo() {
                                     <td>{p.codice}</td>
                                     <td>{descrizione}</td>
                                     <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
-                                    <td>
+
+                                    <td style={{ textAlign: "center" }}>
                                         <img
                                             src={imageSrc}
                                             alt={descrizione}
-                                            className="promo-img"
                                             style={{
-                                                width: "60px",
-                                                height: "60px",
+                                                width: "45px",      // perfetto per mobile
+                                                height: "45px",
                                                 objectFit: "contain",
-                                                borderRadius: "6px",
+                                                borderRadius: "4px",
                                                 backgroundColor: "#fff",
-                                                padding: "4px"
+                                                padding: "2px",
+                                                display: "inline-block"
                                             }}
                                         />
                                     </td>
@@ -76,4 +79,3 @@ export default function Promo() {
         </div>
     );
 }
-
