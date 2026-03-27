@@ -1,3 +1,4 @@
+// frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
 import "./Promo.css";
@@ -21,6 +22,14 @@ export default function Promo() {
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
+    // Funzione che decide quale immagine mostrare
+    const getImage = (img) => {
+        if (!img || img.trim() === "" || img.toLowerCase() === "null") {
+            return "plusmarket-logo.png"; // percorso relativo → FUNZIONA SU NETLIFY
+        }
+        return img;
+    };
+
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
@@ -42,11 +51,10 @@ export default function Promo() {
                             <td>{p.descrizione || p.nome || "—"}</td>
                             <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
 
-                            {/* LOGO FISSO SEMPRE */}
                             <td style={{ textAlign: "center" }}>
                                 <img
-                                    src="/plusmarket-logo.png"
-                                    alt="Logo PlusMarket"
+                                    src={getImage(p.image)}
+                                    alt="Immagine prodotto"
                                     style={{
                                         width: "40px",
                                         height: "40px",
