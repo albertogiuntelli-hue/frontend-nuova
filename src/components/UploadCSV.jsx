@@ -15,13 +15,13 @@ export default function UploadCSV({ type }) {
         formData.append("file", file);
 
         try {
-            // Endpoint corretto
+            // Endpoint corretto su Railway
             const endpoint =
                 type === "promo"
-                    ? "http://192.168.1.65:5000/api/promo/upload"
-                    : "http://192.168.1.65:5000/api/products/upload";
+                    ? "https://backend-nuova-production.up.railway.app/api/upload"
+                    : "https://backend-nuova-production.up.railway.app/api/products/upload";
 
-            const res = await axios.post(endpoint, formData, {
+            await axios.post(endpoint, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
@@ -35,7 +35,11 @@ export default function UploadCSV({ type }) {
     return (
         <div>
             <h2>Carica File CSV</h2>
-            <input type="file" accept=".csv" onChange={(e) => setFile(e.target.files[0])} />
+            <input
+                type="file"
+                accept=".csv"
+                onChange={(e) => setFile(e.target.files[0])}
+            />
             <button onClick={handleUpload}>Carica</button>
             <p>{message}</p>
         </div>
