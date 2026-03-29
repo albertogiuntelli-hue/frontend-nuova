@@ -12,11 +12,11 @@ export const getPromo = async () => {
 };
 
 export const uploadPromo = async (formData) => {
-    return api.post("/api/upload", formData, {
+    return api.post("/api/promo/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
     });
 };
 
 export const deletePromo = async () => {
-    return api.delete("/api/delete");
+    return api.delete("/api/promo/delete");
 };

@@ -1,47 +1,59 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import "./UploadCSV.css";
 
-export default function UploadCSV({ type }) {
+export default function UploadCSV() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
-    const handleUpload = async () => {
+    const upload = async (type) => {
         if (!file) {
-            setMessage("Seleziona un file CSV");
+            setMessage("Seleziona un file CSV prima di caricare.");
             return;
         }
 
         const formData = new FormData();
         formData.append("file", file);
 
-        try {
-            // Endpoint corretto su Railway
-            const endpoint =
-                type === "promo"
-                    ? "https://backend-nuova-production.up.railway.app/api/upload"
-                    : "https://backend-nuova-production.up.railway.app/api/products/upload";
+        // Endpoint corretti su Railway
+        const endpoint =
+            type === "products"
+                ? `${import.meta.env.VITE_API_URL}/api/products/upload`
+                : `${import.meta.env.VITE_API_URL}/api/promo/upload`;
 
-            await axios.post(endpoint, formData, {
+        try {
+            const res = await axios.post(endpoint, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
-            setMessage("File caricato con successo");
+            setMessage(res.data.message || "File caricato con successo!");
         } catch (error) {
             console.error("Errore upload CSV:", error);
-            setMessage("Errore durante il caricamento del file");
+            setMessage("Errore durante il caricamento del file.");
         }
     };
 
     return (
-        <div>
+        <div className="upload-page">
             <h2>Carica File CSV</h2>
-            <input
-                type="file"
-                accept=".csv"
-                onChange={(e) => setFile(e.target.files[0])}
-            />
-            <button onClick={handleUpload}>Carica</button>
-            <p>{message}</p>
+
+            <div className="upload-box">
+                <input
+                    type="file"
+                    accept=".csv"
+                    onChange={(e) => setFile(e.target.files[0])}
+                />
+
+                <button onClick={() => upload("products")}>
+                    Carica CSV Prodotti
+                </button>
+
+                <button onClick={() => upload("promo")}>
+                    Carica CSV Promo
+                </button>
+            </div>
+
+            {message && <p className="upload-message">{message}</p>}
         </div>
     );
 }

@@ -2,6 +2,7 @@
     padding: 10px;
 }
 
+/* Griglia statistiche desktop */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -32,4 +33,30 @@
     font-size: 32px;
     font-weight: bold;
     color: #1e1e2f;
+}
+
+/* -------------------------------------- */
+/* 📱 RESPONSIVE PER MOBILE */
+/* -------------------------------------- */
+
+@media (max-width: 768px) {
+
+    /* Griglia passa da 3 colonne → 1 colonna */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* Card più compatte */
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-card h3 {
+        font-size: 16px;
+    }
+
+    .stat-number {
+        font-size: 26px;
+    }
 }
