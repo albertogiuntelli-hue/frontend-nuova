@@ -3,8 +3,7 @@ import api from "./axios";
 
 export const getPromo = async () => {
     try {
-        // Per ora: carichiamo TUTTI i prodotti
-        const res = await api.get("/api/products");
+        const res = await api.get("/api/promo");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento promo:", error);
