@@ -22,10 +22,10 @@ export default function Promo() {
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
-    // Stessa logica di Prodotti
+    // Fallback immagine → logo PlusMarket
     const getImage = (img) => {
         if (!img || img.trim() === "" || img.toLowerCase() === "null") {
-            return "/plusmarket-logo.png"; // stesso percorso usato in Prodotti
+            return "/plusmarket-logo.png";
         }
         return img;
     };
@@ -48,21 +48,24 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
+
+                            {/* Il backend usa "nome" oppure "descrizione" */}
                             <td>{p.descrizione || p.nome || "—"}</td>
+
                             <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
 
                             <td style={{ textAlign: "center" }}>
                                 <img
-                                    src={getImage(p.image)}
-                                    alt="Immagine prodotto"
+                                    src={getImage(p.immagine)}   // ← CAMPO CORRETTO
+                                    alt="Immagine promo"
                                     style={{
-                                        width: "60px",        // ← STESSA DIMENSIONE DI PRODOTTI
-                                        height: "60px",       // ← STESSA DIMENSIONE DI PRODOTTI
+                                        width: "60px",
+                                        height: "60px",
                                         objectFit: "contain",
                                         backgroundColor: "#fff",
                                         borderRadius: "6px",
                                         padding: "4px",
-                                        border: "1px solid #ddd" // ← STESSO BORDO DI PRODOTTI
+                                        border: "1px solid #ddd"
                                     }}
                                 />
                             </td>
