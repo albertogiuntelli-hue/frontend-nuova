@@ -56,11 +56,11 @@ export default function Promo() {
 
                             <td style={{ textAlign: "center" }}>
                                 <img
-                                    src={getImage(p.immagine)}   // ← CAMPO CORRETTO
+                                    src={getImage(p.immagine)}
                                     alt="Immagine promo"
                                     style={{
-                                        width: "60px",
-                                        height: "60px",
+                                        width: "80px",
+                                        height: "80px",
                                         objectFit: "contain",
                                         backgroundColor: "#fff",
                                         borderRadius: "6px",
