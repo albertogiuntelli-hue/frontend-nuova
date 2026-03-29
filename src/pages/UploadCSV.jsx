@@ -15,10 +15,11 @@ export default function UploadCSV() {
         const formData = new FormData();
         formData.append("file", file);
 
+        // Endpoint corretti su Railway
         const endpoint =
             type === "products"
-                ? `${import.meta.env.VITE_API_URL}/products/upload`
-                : `${import.meta.env.VITE_API_URL}/promo/upload`;
+                ? `${import.meta.env.VITE_API_URL}/api/products/upload`
+                : `${import.meta.env.VITE_API_URL}/api/upload`;
 
         try {
             const res = await axios.post(endpoint, formData, {
