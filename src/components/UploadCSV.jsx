@@ -6,6 +6,9 @@ export default function UploadCSV() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
+    // Fallback automatico se VITE_API_URL non è definita
+    const API_URL = import.meta.env.VITE_API_URL || "https://backend-nuova-production.up.railway.app";
+
     const upload = async (type) => {
         if (!file) {
             setMessage("Seleziona un file CSV prima di caricare.");
@@ -15,11 +18,10 @@ export default function UploadCSV() {
         const formData = new FormData();
         formData.append("file", file);
 
-        // Endpoint corretti su Railway
         const endpoint =
             type === "products"
-                ? `${import.meta.env.VITE_API_URL}/api/products/upload`
-                : `${import.meta.env.VITE_API_URL}/api/promo/upload`;
+                ? `${API_URL}/api/products/upload`
+                : `${API_URL}/api/promo/upload`;
 
         try {
             const res = await axios.post(endpoint, formData, {
