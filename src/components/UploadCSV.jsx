@@ -1,41 +1,55 @@
-.upload - page {
-    margin: 20px 0;
-    padding: 20px;
-    background: #ffffff;
-    border - radius: 8px;
-    border: 1px solid #ddd;
-}
+import React, { useState } from "react";
+import "./UploadCSV.css"; // Usa il CSS corretto che già funziona
 
-.upload - box {
-    display: flex;
-    flex - direction: column;
-    gap: 12px;
-    margin - top: 10px;
-}
+const Upload = () => {
+    const [file, setFile] = useState(null);
+    const [message, setMessage] = useState("");
 
-.upload - box input[type = "file"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border - radius: 6px;
-}
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
 
-.upload - box button {
-    padding: 10px 14px;
-    background - color: #007bff;
-    color: white;
-    border: none;
-    border - radius: 6px;
-    cursor: pointer;
-    font - size: 15px;
-    transition: background 0.2s ease -in -out;
-}
+    const handleUpload = async () => {
+        if (!file) {
+            setMessage("Seleziona un file prima di caricare.");
+            return;
+        }
 
-.upload - box button:hover {
-    background - color: #0056b3;
-}
+        const formData = new FormData();
+        formData.append("file", file);
 
-.upload - message {
-    margin - top: 12px;
-    font - weight: bold;
-    color: #333;
-}
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/promo/upload`,
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+
+            if (response.ok) {
+                setMessage("File caricato con successo!");
+            } else {
+                setMessage("Errore durante il caricamento.");
+            }
+        } catch (error) {
+            console.error("Errore upload:", error);
+            setMessage("Errore di connessione al server.");
+        }
+    };
+
+    return (
+        <div className="upload-page">
+            <h2>Carica File Promo</h2>
+
+            <div className="upload-box">
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Carica</button>
+            </div>
+
+            {message && <p className="upload-message">{message}</p>}
+        </div>
+    );
+};
+
+export default Upload;
