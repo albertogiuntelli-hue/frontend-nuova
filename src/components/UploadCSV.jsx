@@ -1,61 +1,41 @@
-import { useState } from "react";
-import axios from "axios";
-import "./UploadCSV.css";
+.upload - page {
+    margin: 20px 0;
+    padding: 20px;
+    background: #ffffff;
+    border - radius: 8px;
+    border: 1px solid #ddd;
+}
 
-export default function UploadCSV() {
-    const [file, setFile] = useState(null);
-    const [message, setMessage] = useState("");
+.upload - box {
+    display: flex;
+    flex - direction: column;
+    gap: 12px;
+    margin - top: 10px;
+}
 
-    // Fallback automatico se VITE_API_URL non è definita
-    const API_URL = import.meta.env.VITE_API_URL || "https://backend-nuova-production.up.railway.app";
+.upload - box input[type = "file"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border - radius: 6px;
+}
 
-    const upload = async (type) => {
-        if (!file) {
-            setMessage("Seleziona un file CSV prima di caricare.");
-            return;
-        }
+.upload - box button {
+    padding: 10px 14px;
+    background - color: #007bff;
+    color: white;
+    border: none;
+    border - radius: 6px;
+    cursor: pointer;
+    font - size: 15px;
+    transition: background 0.2s ease -in -out;
+}
 
-        const formData = new FormData();
-        formData.append("file", file);
+.upload - box button:hover {
+    background - color: #0056b3;
+}
 
-        const endpoint =
-            type === "products"
-                ? `${API_URL}/api/products/upload`
-                : `${API_URL}/api/promo/upload`;
-
-        try {
-            const res = await axios.post(endpoint, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-
-            setMessage(res.data.message || "File caricato con successo!");
-        } catch (error) {
-            console.error("Errore upload CSV:", error);
-            setMessage("Errore durante il caricamento del file.");
-        }
-    };
-
-    return (
-        <div className="upload-page">
-            <h2>Carica File CSV</h2>
-
-            <div className="upload-box">
-                <input
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
-
-                <button onClick={() => upload("products")}>
-                    Carica CSV Prodotti
-                </button>
-
-                <button onClick={() => upload("promo")}>
-                    Carica CSV Promo
-                </button>
-            </div>
-
-            {message && <p className="upload-message">{message}</p>}
-        </div>
-    );
+.upload - message {
+    margin - top: 12px;
+    font - weight: bold;
+    color: #333;
 }

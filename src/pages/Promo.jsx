@@ -1,28 +1,29 @@
 // frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
-import { getPromo } from "../api/promo";
+import { getPromo, uploadPromo, deletePromo } from "../api/promo";
+import UploadCSV from "../components/UploadCSV";
 import "./Promo.css";
 
 export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const loadPromo = async () => {
+        try {
+            const data = await getPromo();
+            setPromo(data);
+        } catch (error) {
+            console.error("Errore caricamento promo:", error);
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        const load = async () => {
-            try {
-                const data = await getPromo();
-                setPromo(data);
-            } catch (error) {
-                console.error("Errore caricamento promo:", error);
-            }
-            setLoading(false);
-        };
-        load();
+        loadPromo();
     }, []);
 
     if (loading) return <h2>Caricamento promo...</h2>;
 
-    // Fallback immagine → logo PlusMarket
     const getImage = (img) => {
         if (!img || img.trim() === "" || img.toLowerCase() === "null") {
             return "/plusmarket-logo.png";
@@ -33,6 +34,9 @@ export default function Promo() {
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
+
+            {/* 🔥 COMPONENTE UPLOAD CSV PER LE PROMO */}
+            <UploadCSV />
 
             <table className="promo-table">
                 <thead>
@@ -48,12 +52,8 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-
-                            {/* Il backend usa "nome" oppure "descrizione" */}
                             <td>{p.descrizione || p.nome || "—"}</td>
-
                             <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
-
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
