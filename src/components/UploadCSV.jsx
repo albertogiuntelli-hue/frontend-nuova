@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./UploadCSV.css"; // Usa il CSS corretto che già funziona
+import "./UploadCSV.css";
 
 const Upload = () => {
     const [file, setFile] = useState(null);
@@ -20,7 +20,7 @@ const Upload = () => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/promo/upload`,
+                `${import.meta.env.VITE_API_URL}/api/upload`,
                 {
                     method: "POST",
                     body: formData,
@@ -33,7 +33,7 @@ const Upload = () => {
                 setMessage("Errore durante il caricamento.");
             }
         } catch (error) {
-            console.error("Errore upload:", error);
+            console.error("Errore upload CSV:", error);
             setMessage("Errore di connessione al server.");
         }
     };
