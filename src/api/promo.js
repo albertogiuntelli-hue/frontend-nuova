@@ -3,7 +3,7 @@ import api from "./axios";
 
 export const getPromo = async () => {
     try {
-        const res = await api.get("/api/promo");
+        const res = await api.get("/promo");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento promo:", error);
@@ -12,11 +12,11 @@ export const getPromo = async () => {
 };
 
 export const uploadPromo = async (formData) => {
-    return api.post("/api/promo/upload", formData, {
+    return api.post("/promo/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
     });
 };
 
 export const deletePromo = async () => {
-    return api.delete("/api/promo/delete");
+    return api.delete("/promo/delete");
 };

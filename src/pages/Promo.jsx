@@ -36,7 +36,7 @@ export default function Promo() {
             <h2>Offerte & Promo</h2>
 
             {/* 🔥 COMPONENTE UPLOAD CSV PER LE PROMO */}
-            <UploadCSV />
+            <UploadCSV type="promo" />
 
             <table className="promo-table">
                 <thead>
