@@ -1,3 +1,4 @@
+// frontend/src/components/UploadCSV.jsx
 import { useState } from "react";
 import axios from "axios";
 import "./UploadCSV.css";
@@ -15,11 +16,11 @@ export default function UploadCSV() {
         const formData = new FormData();
         formData.append("file", file);
 
-        // Endpoint corretti su Railway
+        // Endpoint corretti (VITE_API_URL contiene già /api)
         const endpoint =
             type === "products"
-                ? `${import.meta.env.VITE_API_URL}/api/products/upload`
-                : `${import.meta.env.VITE_API_URL}/api/upload`;
+                ? `${import.meta.env.VITE_API_URL}/products/upload`
+                : `${import.meta.env.VITE_API_URL}/promo/upload`;
 
         try {
             const res = await axios.post(endpoint, formData, {
