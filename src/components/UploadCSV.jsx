@@ -1,55 +1,51 @@
-import React, { useState } from "react";
-import "./UploadCSV.css";
+// frontend/src/components/UploadCSV.jsx
+import { useState } from "react";
+import { uploadPromo, uploadProducts } from "../api"; // Se usi un index.js per le API
+// ❌ import "./UploadCSV.css";  // RIMOSSO perché il file non esiste
 
-const Upload = () => {
-    const [file, setFile] = useState(null);
+export default function UploadCSV({ type = "promo" }) {
+    const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
-
-    const handleUpload = async () => {
-        if (!file) {
-            setMessage("Seleziona un file prima di caricare.");
-            return;
-        }
+    const handleUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
         const formData = new FormData();
         formData.append("file", file);
 
-        try {
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/upload`,
-                {
-                    method: "POST",
-                    body: formData,
-                }
-            );
+        setLoading(true);
+        setMessage("");
 
-            if (response.ok) {
-                setMessage("File caricato con successo!");
+        try {
+            if (type === "promo") {
+                await uploadPromo(formData);
+                setMessage("Promo caricate con successo!");
             } else {
-                setMessage("Errore durante il caricamento.");
+                await uploadProducts(formData);
+                setMessage("Prodotti caricati con successo!");
             }
         } catch (error) {
             console.error("Errore upload CSV:", error);
-            setMessage("Errore di connessione al server.");
+            setMessage("Errore durante il caricamento del file.");
         }
+
+        setLoading(false);
     };
 
     return (
-        <div className="upload-page">
-            <h2>Carica File Promo</h2>
-
-            <div className="upload-box">
-                <input type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Carica</button>
-            </div>
+        <div className="upload-csv">
+            <label className="upload-label">
+                {loading ? "Caricamento..." : "Carica CSV"}
+                <input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleUpload}
+                    style={{ display: "none" }}
+                />
+            </label>
 
             {message && <p className="upload-message">{message}</p>}
         </div>
     );
-};
-
-export default Upload;
+}
