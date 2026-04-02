@@ -1,7 +1,10 @@
 // frontend/src/components/UploadCSV.jsx
 import { useState } from "react";
-import { uploadPromo, uploadProducts } from "../api"; // Se usi un index.js per le API
-// ❌ import "./UploadCSV.css";  // RIMOSSO perché il file non esiste
+import { uploadPromo } from "../api/promo";
+import { uploadProducts } from "../api/products";
+
+// ⚠️ IMPORT CSS RIMOSSO DEFINITIVAMENTE
+// import "./UploadCSV.css";
 
 export default function UploadCSV({ type = "promo" }) {
     const [loading, setLoading] = useState(false);
