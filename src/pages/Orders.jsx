@@ -9,8 +9,12 @@ export default function Orders() {
 
     useEffect(() => {
         const load = async () => {
-            const data = await getOrders();
-            setOrders(data);
+            try {
+                const data = await getOrders();
+                setOrders(data || []);
+            } catch (err) {
+                console.error("Errore caricamento ordini:", err);
+            }
             setLoading(false);
         };
         load();
@@ -19,14 +23,11 @@ export default function Orders() {
     const handleStatusChange = async (index, newStatus) => {
         try {
             await updateOrderStatus(index, newStatus);
-
-            // Aggiorna stato localmente senza ricaricare tutto
             const updated = [...orders];
             updated[index].stato = newStatus;
             setOrders(updated);
-
             alert("Stato aggiornato!");
-        } catch (error) {
+        } catch {
             alert("Errore aggiornamento stato ordine");
         }
     };
@@ -40,7 +41,7 @@ export default function Orders() {
             <table className="orders-table">
                 <thead>
                     <tr>
-                        <th>Cliente</th>
+                        <th>Nome</th>
                         <th>Telefono</th>
                         <th>Indirizzo</th>
                         <th>Prodotti</th>
@@ -54,20 +55,24 @@ export default function Orders() {
                 <tbody>
                     {orders.map((order, index) => (
                         <tr key={index}>
-                            <td>{order.cliente}</td>
-                            <td>{order.telefono}</td>
-                            <td>{order.indirizzo}</td>
+                            <td>{order.cliente?.nome || "—"}</td>
+                            <td>{order.cliente?.telefono || "—"}</td>
+                            <td>{order.cliente?.indirizzo || "—"}</td>
+
                             <td>
-                                {order.prodotti.map((p, i) => (
+                                {order.prodotti?.map((p, i) => (
                                     <div key={i}>
-                                        {p.nome} x {p.quantita}
+                                        {p.nome} —{" "}
+                                        {p.productType === "pezzi"
+                                            ? `${p.quantity} pz`
+                                            : `${p.weight} g`}
                                     </div>
                                 ))}
                             </td>
+
                             <td>{order.totale} €</td>
                             <td>{new Date(order.data).toLocaleString()}</td>
 
-                            {/* SELECT STATO */}
                             <td>
                                 <select
                                     value={order.stato}
@@ -82,7 +87,6 @@ export default function Orders() {
                                 </select>
                             </td>
 
-                            {/* BOTTONE AGGIORNA */}
                             <td>
                                 <button
                                     onClick={() =>
