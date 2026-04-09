@@ -11,7 +11,7 @@ export default function Users() {
         const load = async () => {
             try {
                 const data = await getUsers();
-                setUsers(data);
+                setUsers(data || []);
             } catch (error) {
                 console.error("Errore caricamento utenti:", error);
             }
@@ -29,31 +29,24 @@ export default function Users() {
             <table className="users-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
-                        <th>Email</th>
                         <th>Telefono</th>
-                        <th>Registrato il</th>
+                        <th>Indirizzo</th>
+                        <th>Note</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {users
-                        .filter(u =>
-                            u.id &&
-                            u.id.toLowerCase() !== "id" &&
-                            u.nome?.toLowerCase() !== "nome" &&
-                            u.email?.toLowerCase() !== "email"
-                        )
-                        .map((u, index) => (
-                            <tr key={index}>
-                                <td>{u.id || "—"}</td>
-                                <td>{u.nome || "—"}</td>
-                                <td>{u.email || "—"}</td>
-                                <td>{u.telefono || "—"}</td>
-                                <td>{u.data_registrazione || "—"}</td>
-                            </tr>
-                        ))}
+                    {users.map((u, index) => (
+                        <tr key={index}>
+                            <td>{u.nome || "—"}</td>
+                            <td>{u.telefono || "—"}</td>
+                            <td>{u.indirizzo || "—"}</td>
+                            <td>{u.note || "—"}</td>
+                            <td>{u.email || "—"}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
