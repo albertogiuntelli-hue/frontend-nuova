@@ -1,9 +1,8 @@
-// frontend/src/api/users.js
 import api from "./axios";
 
 export const getUsers = async () => {
     try {
-        const res = await api.get("/users");
+        const res = await api.get("/api/users");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento utenti:", error);
@@ -12,5 +11,5 @@ export const getUsers = async () => {
 };
 
 export const deleteUser = async (userId) => {
-    return api.delete(`/users/${userId}`);
+    return api.delete(`/api/users/${userId}`);
 };
