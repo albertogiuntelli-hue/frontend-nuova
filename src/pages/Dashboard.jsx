@@ -1,52 +1,41 @@
-import { useState } from "react";
-import Products from "./Products";
-import Promo from "./Promo";
-import Orders from "./Orders";
-import Users from "./Users";
-import Categories from "./Categories";
-import UploadCSV from "./UploadCSV";
+import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
 export default function Dashboard() {
-    const [page, setPage] = useState("products");
-
     return (
-        <div className="dashboard">
-            <h1>Dashboard Amministrazione</h1>
+        <div className="dashboard-container">
+            <h1 className="dashboard-title">Dashboard Amministrazione</h1>
 
-            <div className="stats-grid">
-                <div className="stat-card" onClick={() => setPage("upload")}>
+            <div className="dashboard-cards">
+                <Link to="/admin/upload" className="dashboard-card">
                     <h3>Carica CSV</h3>
-                </div>
+                    <p>Carica prodotti o promo</p>
+                </Link>
 
-                <div className="stat-card" onClick={() => setPage("products")}>
+                <Link to="/admin/products" className="dashboard-card">
                     <h3>Prodotti</h3>
-                </div>
+                    <p>Gestisci il catalogo</p>
+                </Link>
 
-                <div className="stat-card" onClick={() => setPage("promo")}>
+                <Link to="/admin/promo" className="dashboard-card">
                     <h3>Promo</h3>
-                </div>
+                    <p>Gestisci le offerte</p>
+                </Link>
 
-                <div className="stat-card" onClick={() => setPage("orders")}>
+                <Link to="/admin/orders" className="dashboard-card">
                     <h3>Ordini</h3>
-                </div>
+                    <p>Visualizza gli ordini</p>
+                </Link>
 
-                <div className="stat-card" onClick={() => setPage("users")}>
+                <Link to="/admin/users" className="dashboard-card">
                     <h3>Utenti</h3>
-                </div>
+                    <p>Gestisci gli utenti</p>
+                </Link>
 
-                <div className="stat-card" onClick={() => setPage("categories")}>
+                <Link to="/admin/categories" className="dashboard-card">
                     <h3>Categorie</h3>
-                </div>
-            </div>
-
-            <div style={{ marginTop: "30px" }}>
-                {page === "upload" && <UploadCSV />}
-                {page === "products" && <Products />}
-                {page === "promo" && <Promo />}
-                {page === "orders" && <Orders />}
-                {page === "users" && <Users />}
-                {page === "categories" && <Categories />}
+                    <p>Gestisci le categorie</p>
+                </Link>
             </div>
         </div>
     );
