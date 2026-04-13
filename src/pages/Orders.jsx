@@ -44,7 +44,7 @@ export default function Orders() {
                         <th>Nome</th>
                         <th>Telefono</th>
                         <th>Indirizzo</th>
-                        <th>Prodotti</th>
+                        <th className="prodotti-col">Prodotti</th>
                         <th>Totale</th>
                         <th>Data</th>
                         <th>Stato</th>
@@ -59,22 +59,25 @@ export default function Orders() {
                             <td>{order.cliente?.telefono || "—"}</td>
                             <td>{order.cliente?.indirizzo || "—"}</td>
 
-                            {/* 🔥 PRODOTTI IMPAGINATI E LEGGIBILI */}
+                            {/* 🔥 PRODOTTI IMPAGINATI E PARZIALI CORRETTI */}
                             <td className="prodotti-col">
                                 {order.prodotti?.map((p, i) => {
                                     const qty =
                                         p.productType === "pezzi"
-                                            ? `${p.quantity} pz`
-                                            : `${p.weight} g`;
+                                            ? `${p.quantity || 1} pz`
+                                            : `${p.weight || 0} g`;
 
-                                    const prezzo = (
-                                        (p.prezzo_scontato > 0
+                                    const basePrice =
+                                        p.prezzo_scontato > 0
                                             ? p.prezzo_scontato
-                                            : p.prezzo) *
-                                        (p.productType === "pezzi"
-                                            ? p.quantity
-                                            : p.weight / 1000)
-                                    ).toFixed(2);
+                                            : p.prezzo;
+
+                                    const multiplier =
+                                        p.productType === "pezzi"
+                                            ? (p.quantity || 1)
+                                            : (p.weight || 0) / 1000;
+
+                                    const prezzo = (basePrice * multiplier).toFixed(2);
 
                                     return (
                                         <div key={i} className="prodotto-riga">
