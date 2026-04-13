@@ -1,62 +1,37 @@
-.dashboard {
-    padding: 10px;
+.dashboard-container {
+    padding: 30px;
+    background: #F5F7FA;
+    min-height: 100vh;
 }
 
-/* Griglia statistiche desktop */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.stat-card:hover {
-    background: #f0f0f0;
-}
-
-.stat-card h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-.stat-number {
-    font-size: 32px;
+.dashboard-title {
+    font-size: 28px;
     font-weight: bold;
-    color: #1e1e2f;
+    color: #FF7A00;
+    margin-bottom: 25px;
 }
 
-/* -------------------------------------- */
-/* 📱 RESPONSIVE PER MOBILE */
-/* -------------------------------------- */
+.dashboard-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-@media (max-width: 768px) {
+.dashboard-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px;
+}
 
-    /* Griglia passa da 3 colonne → 1 colonna */
-    .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
+.dashboard-card h3 {
+    color: #FF7A00;
+    margin-bottom: 10px;
+}
 
-    /* Card più compatte */
-    .stat-card {
-        padding: 18px;
-    }
-
-    .stat-card h3 {
-        font-size: 16px;
-    }
-
-    .stat-number {
-        font-size: 26px;
-    }
+.dashboard-card p {
+    color: #555;
+    font-size: 16px;
 }

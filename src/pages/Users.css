@@ -1,27 +1,55 @@
 .users-page {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #F5F7FA;
+    padding: 25px;
+    border-radius: 12px;
+    color: #333;
 }
 
 .users-page h2 {
     margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #FF7A00;
+    text-align: center;
 }
 
 .users-table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 16px;
+    color: #333;
 }
 
 .users-table th {
-    background: #006699;
+    background: #FF7A00;
     color: white;
-    padding: 12px;
+    padding: 14px;
     text-align: left;
+    font-weight: bold;
 }
 
 .users-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.users-table tr:nth-child(even) {
+    background: #FFF5EB;
+}
+
+.users-table button {
+    padding: 8px 14px;
+    background: #FF7A00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.users-table button:hover {
+    background: #FF9A33;
 }
