@@ -25,6 +25,7 @@
     font-weight: 500;
     background: #FFF5EB;
     transition: 0.2s;
+    display: block;
 }
 
 .sidebar a:hover {
