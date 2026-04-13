@@ -59,15 +59,29 @@ export default function Orders() {
                             <td>{order.cliente?.telefono || "—"}</td>
                             <td>{order.cliente?.indirizzo || "—"}</td>
 
-                            <td>
-                                {order.prodotti?.map((p, i) => (
-                                    <div key={i}>
-                                        {p.nome} —{" "}
-                                        {p.productType === "pezzi"
+                            {/* 🔥 PRODOTTI IMPAGINATI E LEGGIBILI */}
+                            <td className="prodotti-col">
+                                {order.prodotti?.map((p, i) => {
+                                    const qty =
+                                        p.productType === "pezzi"
                                             ? `${p.quantity} pz`
-                                            : `${p.weight} g`}
-                                    </div>
-                                ))}
+                                            : `${p.weight} g`;
+
+                                    const prezzo = (
+                                        (p.prezzo_scontato > 0
+                                            ? p.prezzo_scontato
+                                            : p.prezzo) *
+                                        (p.productType === "pezzi"
+                                            ? p.quantity
+                                            : p.weight / 1000)
+                                    ).toFixed(2);
+
+                                    return (
+                                        <div key={i} className="prodotto-riga">
+                                            • {p.nome} — {qty} — €{prezzo}
+                                        </div>
+                                    );
+                                })}
                             </td>
 
                             <td>{order.totale} €</td>
