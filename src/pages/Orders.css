@@ -1,92 +1,101 @@
-/* Contenitore pagina */
+/* CONTENITORE PAGINA */
 .orders-page {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #F5F7FA;
+    padding: 25px;
+    border-radius: 12px;
+    color: #333;
 }
 
+/* TITOLO */
 .orders-page h2 {
     margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #FF7A00;
+    text-align: center;
 }
 
-/* TABELLA ORDINI */
+/* TABELLA */
 .orders-table {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
+    font-size: 16px;
+    color: #333;
 }
 
 /* INTESTAZIONI */
 .orders-table th {
-    background: #004080;
+    background: #FF7A00;
     color: white;
-    padding: 12px;
+    padding: 14px;
     text-align: left;
     font-weight: bold;
+    font-size: 15px;
 }
 
 /* CELLE */
 .orders-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
     vertical-align: top;
 }
 
 /* RIGHE ALTERNATE */
 .orders-table tr:nth-child(even) {
-    background: #f7f7f7;
+    background: #FFF5EB;
 }
 
 /* PRODOTTI IMPAGINATI */
-.prodotto-riga {
-    margin-bottom: 4px;
-    line-height: 1.4;
+.prodotti-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 260px;
 }
 
-.prodotti-col {
-    white-space: pre-line;
+.prodotto-riga {
+    background: #FFE3CC;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #FFB366;
+    font-size: 14px;
+    color: #333;
 }
 
 /* SELECT STATO */
 .orders-table select {
-    padding: 6px;
+    padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    background: white;
+    font-size: 14px;
 }
 
 /* BOTTONE AGGIORNA */
 .orders-table button {
-    padding: 6px 12px;
-    background: #004080;
+    padding: 8px 14px;
+    background: #FF7A00;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-}
-
-.orders-table button:hover {
-    background: #003060;
-}
-
-/* STATUS BADGES (se li userai in futuro) */
-.status {
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: white;
     font-weight: bold;
 }
 
-.status.in_attesa {
-    background: #ff9800;
+.orders-table button:hover {
+    background: #FF9A33;
 }
 
-.status.completato {
-    background: #4caf50;
-}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .orders-table {
+        font-size: 14px;
+    }
 
-.status.annullato {
-    background: #f44336;
+    .prodotti-col {
+        max-width: 200px;
+    }
 }
