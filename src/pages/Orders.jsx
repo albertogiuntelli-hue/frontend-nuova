@@ -55,7 +55,6 @@ export default function Orders() {
                 <tbody>
                     {orders.map((order, index) => (
                         <tr key={index}>
-                            {/* ⭐ Nome + Cognome */}
                             <td>
                                 {order.cliente?.nome || "—"}{" "}
                                 {order.cliente?.cognome || ""}
@@ -64,7 +63,7 @@ export default function Orders() {
                             <td>{order.cliente?.telefono || "—"}</td>
                             <td>{order.cliente?.indirizzo || "—"}</td>
 
-                            {/* 🔥 PRODOTTI */}
+                            {/* 🔥 PRODOTTI MIGLIORATI */}
                             <td className="prodotti-col">
                                 {order.prodotti?.map((p, i) => {
                                     const isPeso = p.tipo === "S";
@@ -83,8 +82,11 @@ export default function Orders() {
 
                                     return (
                                         <div key={i} className="prodotto-riga">
-                                            • {p.nome} — {qty} — €
-                                            {subtotal.toFixed(2)}
+                                            <div className="prodotto-nome">{p.nome}</div>
+                                            <div className="prodotto-info">
+                                                <span>{qty}</span>
+                                                <span>€ {subtotal.toFixed(2)}</span>
+                                            </div>
                                         </div>
                                     );
                                 })}
