@@ -63,7 +63,6 @@ export default function Orders() {
                             <td>{order.cliente?.telefono || "—"}</td>
                             <td>{order.cliente?.indirizzo || "—"}</td>
 
-                            {/* 🔥 PRODOTTI MIGLIORATI */}
                             <td className="prodotti-col">
                                 {order.prodotti?.map((p, i) => {
                                     const isPeso = p.tipo === "S";
@@ -92,7 +91,11 @@ export default function Orders() {
                                 })}
                             </td>
 
-                            <td>{(order.totale / 100).toFixed(2)} €</td>
+                            {/* ⭐ TOTALE EVIDENZIATO */}
+                            <td className="totale-col">
+                                € {(order.totale / 100).toFixed(2)}
+                            </td>
+
                             <td>{new Date(order.data).toLocaleString()}</td>
 
                             <td>

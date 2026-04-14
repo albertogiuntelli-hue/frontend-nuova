@@ -83,6 +83,17 @@
     opacity: 0.9;
 }
 
+/* ⭐ TOTALE EVIDENZIATO */
+.totale-col {
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+    text-align: right;
+    background: #FFF0D9;
+    border-radius: 6px;
+    padding: 10px;
+}
+
 /* SELECT STATO */
 .orders-table select {
     padding: 8px;
