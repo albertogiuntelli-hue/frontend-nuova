@@ -59,35 +59,33 @@ export default function Orders() {
                             <td>{order.cliente?.telefono || "—"}</td>
                             <td>{order.cliente?.indirizzo || "—"}</td>
 
-                            {/* 🔥 PRODOTTI IMPAGINATI E PARZIALI CORRETTI */}
+                            {/* 🔥 PRODOTTI CORRETTI */}
                             <td className="prodotti-col">
                                 {order.prodotti?.map((p, i) => {
-                                    const qty =
-                                        p.productType === "pezzi"
-                                            ? `${p.quantity || 1} pz`
-                                            : `${p.weight || 0} g`;
+                                    const isPeso = p.tipo === "S";
 
-                                    const basePrice =
-                                        p.prezzo_scontato > 0
-                                            ? p.prezzo_scontato
-                                            : p.prezzo;
+                                    const qty = isPeso
+                                        ? `${p.peso} g`
+                                        : `${p.quantita} pz`;
 
-                                    const multiplier =
-                                        p.productType === "pezzi"
-                                            ? (p.quantity || 1)
-                                            : (p.weight || 0) / 1000;
+                                    const prezzoUnit = p.prezzo_scontato > 0
+                                        ? p.prezzo_scontato
+                                        : p.prezzo;
 
-                                    const prezzo = (basePrice * multiplier).toFixed(2);
+                                    const subtotal = isPeso
+                                        ? (p.peso / 1000) * (prezzoUnit / 100)
+                                        : p.quantita * (prezzoUnit / 100);
 
                                     return (
                                         <div key={i} className="prodotto-riga">
-                                            • {p.nome} — {qty} — €{prezzo}
+                                            • {p.nome} — {qty} — €
+                                            {subtotal.toFixed(2)}
                                         </div>
                                     );
                                 })}
                             </td>
 
-                            <td>{order.totale} €</td>
+                            <td>{(order.totale / 100).toFixed(2)} €</td>
                             <td>{new Date(order.data).toLocaleString()}</td>
 
                             <td>
