@@ -91,12 +91,19 @@ export default function Orders() {
                                 })}
                             </td>
 
-                            {/* ⭐ TOTALE EVIDENZIATO */}
                             <td className="totale-col">
                                 € {(order.totale / 100).toFixed(2)}
                             </td>
 
-                            <td>{new Date(order.data).toLocaleString()}</td>
+                            {/* ⭐ DATA MIGLIORATA */}
+                            <td className="data-col">
+                                {new Date(order.data).toLocaleDateString("it-IT")}{" "}
+                                –{" "}
+                                {new Date(order.data).toLocaleTimeString("it-IT", {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                })}
+                            </td>
 
                             <td>
                                 <select

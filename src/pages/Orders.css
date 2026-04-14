@@ -94,6 +94,14 @@
     padding: 10px;
 }
 
+/* ⭐ DATA MIGLIORATA */
+.data-col {
+    text-align: right;
+    font-size: 15px;
+    color: #444;
+    font-weight: 500;
+}
+
 /* SELECT STATO */
 .orders-table select {
     padding: 8px;
