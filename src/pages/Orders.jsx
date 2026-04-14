@@ -95,7 +95,6 @@ export default function Orders() {
                                 € {(order.totale / 100).toFixed(2)}
                             </td>
 
-                            {/* ⭐ DATA MIGLIORATA */}
                             <td className="data-col">
                                 {new Date(order.data).toLocaleDateString("it-IT")}{" "}
                                 –{" "}
@@ -103,6 +102,13 @@ export default function Orders() {
                                     hour: "2-digit",
                                     minute: "2-digit"
                                 })}
+                            </td>
+
+                            {/* ⭐ BADGE SOFT */}
+                            <td>
+                                <span className={`badge badge-${order.stato.replace(" ", "-")}`}>
+                                    {order.stato}
+                                </span>
                             </td>
 
                             <td>
@@ -117,16 +123,6 @@ export default function Orders() {
                                     <option value="evaso">Evaso</option>
                                     <option value="annullato">Annullato</option>
                                 </select>
-                            </td>
-
-                            <td>
-                                <button
-                                    onClick={() =>
-                                        handleStatusChange(index, order.stato)
-                                    }
-                                >
-                                    Aggiorna
-                                </button>
                             </td>
                         </tr>
                     ))}

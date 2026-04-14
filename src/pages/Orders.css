@@ -102,6 +102,37 @@
     font-weight: 500;
 }
 
+/* ⭐ BADGE SOFT */
+.badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+/* COLORI SOFT */
+.badge-in-attesa {
+    background: #FFF4CC;
+    color: #8A6D00;
+}
+
+.badge-in-lavorazione {
+    background: #E0ECFF;
+    color: #1E40AF;
+}
+
+.badge-evaso {
+    background: #DFF7E8;
+    color: #166534;
+}
+
+.badge-annullato {
+    background: #FFE2E2;
+    color: #B91C1C;
+}
+
 /* SELECT STATO */
 .orders-table select {
     padding: 8px;
