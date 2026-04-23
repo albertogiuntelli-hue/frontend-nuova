@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import Papa from "papaparse";
 import "./Promo.css"; // stesso stile della pagina promo
 
 export default function Products() {
@@ -8,11 +8,19 @@ export default function Products() {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("https://backend-nuova-production.up.railway.app/api/products");
-            setProducts(res.data);
+            const response = await fetch("/backend/uploads/products-latest.csv");
+            const csvText = await response.text();
+
+            Papa.parse(csvText, {
+                header: true,
+                delimiter: ";",
+                complete: (results) => {
+                    setProducts(results.data);
+                    setLoading(false);
+                }
+            });
         } catch (error) {
             console.error("Errore caricamento prodotti:", error);
-        } finally {
             setLoading(false);
         }
     };
@@ -22,6 +30,13 @@ export default function Products() {
     }, []);
 
     if (loading) return <h2>Caricamento prodotti...</h2>;
+
+    const getImage = (img) => {
+        if (!img || img.trim() === "" || img.toLowerCase() === "null") {
+            return "/plusmarket-logo.png";
+        }
+        return img;
+    };
 
     return (
         <div className="promo-page">
@@ -46,8 +61,6 @@ export default function Products() {
                                     ? p.descrizione
                                     : p.nome || "—";
 
-                            const imageSrc = "/logo.jpg";
-
                             return (
                                 <tr key={index}>
                                     <td>{p.codice}</td>
@@ -55,7 +68,7 @@ export default function Products() {
                                     <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
                                     <td>
                                         <img
-                                            src={imageSrc}
+                                            src={getImage(p.immagine)}
                                             alt={descrizione}
                                             className="promo-img"
                                             style={{
