@@ -1,5 +1,6 @@
 import api from "./axios";
 
+// Ottiene tutti gli utenti
 export const getUsers = async () => {
     try {
         const res = await api.get("/api/users");
@@ -10,6 +11,7 @@ export const getUsers = async () => {
     }
 };
 
+// Elimina un utente
 export const deleteUser = async (userId) => {
     return api.delete(`/api/users/${userId}`);
 };
