@@ -1,6 +1,6 @@
 // frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
-import { getPromo, uploadPromo, deletePromo } from "../api/promo";
+import Papa from "papaparse";
 import UploadCSV from "../components/UploadCSV";
 import "./Promo.css";
 
@@ -8,14 +8,24 @@ export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // 🔥 Legge direttamente il CSV con le immagini Cloudinary
     const loadPromo = async () => {
         try {
-            const data = await getPromo();
-            setPromo(data);
+            const response = await fetch("/backend/uploads/promo-latest.csv");
+            const csvText = await response.text();
+
+            Papa.parse(csvText, {
+                header: true,
+                delimiter: ";",
+                complete: (results) => {
+                    setPromo(results.data);
+                    setLoading(false);
+                }
+            });
         } catch (error) {
             console.error("Errore caricamento promo:", error);
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -35,7 +45,7 @@ export default function Promo() {
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
 
-            {/* 🔥 COMPONENTE UPLOAD CSV PER LE PROMO */}
+            {/* 🔥 Upload CSV promo */}
             <UploadCSV type="promo" />
 
             <table className="promo-table">
