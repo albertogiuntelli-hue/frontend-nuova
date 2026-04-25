@@ -20,11 +20,14 @@ export default function Orders() {
         load();
     }, []);
 
-    const handleStatusChange = async (index, newStatus) => {
+    const handleStatusChange = async (orderId, newStatus) => {
         try {
-            await updateOrderStatus(index, newStatus);
-            const updated = [...orders];
-            updated[index].stato = newStatus;
+            await updateOrderStatus(orderId, newStatus);
+
+            const updated = orders.map((o) =>
+                o._id === orderId ? { ...o, stato: newStatus } : o
+            );
+
             setOrders(updated);
             alert("Stato aggiornato!");
         } catch {
@@ -53,8 +56,8 @@ export default function Orders() {
                 </thead>
 
                 <tbody>
-                    {orders.map((order, index) => (
-                        <tr key={index}>
+                    {orders.map((order) => (
+                        <tr key={order._id}>
                             <td>
                                 {order.cliente?.nome || "—"}{" "}
                                 {order.cliente?.cognome || ""}
@@ -71,9 +74,10 @@ export default function Orders() {
                                         ? `${p.peso} g`
                                         : `${p.quantita} pz`;
 
-                                    const prezzoUnit = p.prezzo_scontato > 0
-                                        ? p.prezzo_scontato
-                                        : p.prezzo;
+                                    const prezzoUnit =
+                                        p.prezzo_scontato > 0
+                                            ? p.prezzo_scontato
+                                            : p.prezzo;
 
                                     const subtotal = isPeso
                                         ? (p.peso / 1000) * (prezzoUnit / 100)
@@ -81,7 +85,9 @@ export default function Orders() {
 
                                     return (
                                         <div key={i} className="prodotto-riga">
-                                            <div className="prodotto-nome">{p.nome}</div>
+                                            <div className="prodotto-nome">
+                                                {p.nome}
+                                            </div>
                                             <div className="prodotto-info">
                                                 <span>{qty}</span>
                                                 <span>€ {subtotal.toFixed(2)}</span>
@@ -96,17 +102,21 @@ export default function Orders() {
                             </td>
 
                             <td className="data-col">
-                                {new Date(order.data).toLocaleDateString("it-IT")}{" "}
+                                {new Date(order.createdAt).toLocaleDateString("it-IT")}{" "}
                                 –{" "}
-                                {new Date(order.data).toLocaleTimeString("it-IT", {
+                                {new Date(order.createdAt).toLocaleTimeString("it-IT", {
                                     hour: "2-digit",
-                                    minute: "2-digit"
+                                    minute: "2-digit",
                                 })}
                             </td>
 
-                            {/* ⭐ BADGE SOFT */}
                             <td>
-                                <span className={`badge badge-${order.stato.replace(" ", "-")}`}>
+                                <span
+                                    className={`badge badge-${order.stato.replace(
+                                        " ",
+                                        "-"
+                                    )}`}
+                                >
                                     {order.stato}
                                 </span>
                             </td>
@@ -115,7 +125,7 @@ export default function Orders() {
                                 <select
                                     value={order.stato}
                                     onChange={(e) =>
-                                        handleStatusChange(index, e.target.value)
+                                        handleStatusChange(order._id, e.target.value)
                                     }
                                 >
                                     <option value="in attesa">In attesa</option>
@@ -123,6 +133,15 @@ export default function Orders() {
                                     <option value="evaso">Evaso</option>
                                     <option value="annullato">Annullato</option>
                                 </select>
+
+                                <button
+                                    className="update-btn"
+                                    onClick={() =>
+                                        handleStatusChange(order._id, order.stato)
+                                    }
+                                >
+                                    Aggiorna
+                                </button>
                             </td>
                         </tr>
                     ))}
