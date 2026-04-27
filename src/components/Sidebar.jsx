@@ -45,6 +45,16 @@ export default function Sidebar() {
                     🧾 Ordini
                 </NavLink>
 
+                {/* 🔥 NUOVO TASTO ARCHIVIO ORDINI */}
+                <NavLink
+                    to="/admin/orders/archive"
+                    className={({ isActive }) =>
+                        isActive ? "sidebar-link active" : "sidebar-link"
+                    }
+                >
+                    📁 Archivio Ordini
+                </NavLink>
+
                 <NavLink
                     to="/admin/users"
                     className={({ isActive }) =>

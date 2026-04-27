@@ -9,6 +9,7 @@ import Orders from "../pages/Orders";
 import Users from "../pages/Users";
 import Categories from "../pages/Categories";
 import UploadCSV from "../pages/UploadCSV";
+import OrdersArchive from "../pages/OrdersArchive";   // ⭐ NUOVO IMPORT
 
 import Login from "../pages/Login";
 import Shop from "../pages/Shop";
@@ -33,6 +34,7 @@ export default function AppRouter() {
                     <Route path="products" element={<Products />} />
                     <Route path="promo" element={<Promo />} />
                     <Route path="orders" element={<Orders />} />
+                    <Route path="orders/archive" element={<OrdersArchive />} /> {/* ⭐ NUOVA ROTTA */}
                     <Route path="users" element={<Users />} />
                     <Route path="categories" element={<Categories />} />
                     <Route path="upload" element={<UploadCSV />} />
