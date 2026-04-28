@@ -1,5 +1,7 @@
 .sidebar {
     width: 240px;
+    flex-shrink: 0;
+    /* 🔥 FIX FONDAMENTALE */
     background: white;
     border-right: 2px solid #FFE3CC;
     padding: 20px;
