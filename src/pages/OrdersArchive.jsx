@@ -1,5 +1,6 @@
+// frontend/src/pages/OrdersArchive.jsx
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "../api/api";
 import "./Orders.css";
 
 export default function OrdersArchive() {
