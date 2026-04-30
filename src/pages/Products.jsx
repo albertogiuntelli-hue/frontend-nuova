@@ -15,17 +15,30 @@ export default function Products() {
         load();
     }, []);
 
+    // 🔥 Funzione immagine DEFINITIVA (gestisce tutti i valori sporchi)
     const getImage = (img) => {
-        if (!img || img.trim() === "" || img.toLowerCase() === "null") {
+        if (!img) return "/plusmarket-logo.png";
+
+        const cleaned = img.trim().toLowerCase();
+
+        if (
+            cleaned === "" ||
+            cleaned === "null" ||
+            cleaned === "undefined" ||
+            cleaned === "n/d" ||
+            cleaned === "-" ||
+            cleaned === "immagine" ||
+            cleaned === "immagine prodotto" ||
+            cleaned === "immagine promo"
+        ) {
             return "/plusmarket-logo.png";
         }
+
         return img;
     };
 
     const formatPrice = (value) => {
         if (!value || isNaN(value)) return "—";
-
-        // ✔ Prezzo sempre in euro
         return Number(value).toFixed(2) + " €";
     };
 
