@@ -21,20 +21,32 @@ export default function Promo() {
         load();
     }, []);
 
-    if (loading) return <h2>Caricamento promo...</h2>;
-
+    // 🔥 Funzione immagine DEFINITIVA
     const getImage = (img) => {
-        if (!img || img.trim() === "" || img.toLowerCase() === "null") {
+        if (!img) return "/plusmarket-logo.png";
+
+        const cleaned = img.trim().toLowerCase();
+
+        if (
+            cleaned === "" ||
+            cleaned === "null" ||
+            cleaned === "undefined" ||
+            cleaned === "n/d" ||
+            cleaned === "-" ||
+            cleaned === "immagine promo"
+        ) {
             return "/plusmarket-logo.png";
         }
+
         return img;
     };
+
+    if (loading) return <h2>Caricamento promo...</h2>;
 
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
 
-            {/* Upload CSV promo */}
             <UploadCSV type="promo" />
 
             <table className="promo-table">
@@ -51,15 +63,18 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-                            <td>{p.nome || p.descrizione || "—"}</td>
 
-                            {/* 🔥 FIX PREZZO: niente divisione per 100 */}
+                            {/* ✔ Usa sempre p.descrizione */}
+                            <td>{p.descrizione || "—"}</td>
+
+                            {/* ✔ Prezzo già corretto */}
                             <td>
                                 {p.prezzo
                                     ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
 
+                            {/* ✔ Immagine corretta */}
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
