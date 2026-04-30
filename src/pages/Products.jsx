@@ -24,6 +24,13 @@ export default function Products() {
 
     const formatPrice = (value) => {
         if (!value || isNaN(value)) return "—";
+
+        // Se il backend manda già il prezzo in euro
+        if (value > 10) {
+            return Number(value).toFixed(2) + " €";
+        }
+
+        // Se il backend manda il prezzo in centesimi
         return (value / 100).toFixed(2) + " €";
     };
 
