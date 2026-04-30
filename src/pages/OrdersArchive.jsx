@@ -1,4 +1,3 @@
-// frontend/src/pages/OrdersArchive.jsx
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import "./Orders.css";
@@ -19,6 +18,27 @@ export default function OrdersArchive() {
         };
         load();
     }, []);
+
+    const getOrderDate = (order) => {
+        const raw =
+            order.createdAt || // ordini nuovi
+            order.data ||      // ordini vecchi
+            null;
+
+        if (!raw) return "—";
+
+        const d = new Date(raw);
+        if (isNaN(d.getTime())) return "—";
+
+        return (
+            d.toLocaleDateString("it-IT") +
+            " – " +
+            d.toLocaleTimeString("it-IT", {
+                hour: "2-digit",
+                minute: "2-digit",
+            })
+        );
+    };
 
     if (loading) return <h2>Caricamento archivio...</h2>;
 
@@ -85,14 +105,7 @@ export default function OrdersArchive() {
                                 € {(order.totale / 100).toFixed(2)}
                             </td>
 
-                            <td className="data-col">
-                                {new Date(order.createdAt).toLocaleDateString("it-IT")}{" "}
-                                –{" "}
-                                {new Date(order.createdAt).toLocaleTimeString("it-IT", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                })}
-                            </td>
+                            <td className="data-col">{getOrderDate(order)}</td>
 
                             <td>
                                 <span className="badge badge-evaso">Evaso</span>

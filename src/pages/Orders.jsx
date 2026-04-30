@@ -1,4 +1,3 @@
-// frontend/src/pages/Orders.jsx
 import { useEffect, useState } from "react";
 import { getOrders, updateOrderStatus } from "../api/orders";
 import "./Orders.css";
@@ -20,17 +19,18 @@ export default function Orders() {
         load();
     }, []);
 
-    const handleStatusChange = async (orderId, newStatus) => {
+    const handleStatusChange = async (orderIndex, newStatus) => {
         try {
-            await updateOrderStatus(orderId, newStatus);
+            await updateOrderStatus(orderIndex, newStatus);
 
-            const updated = orders.map((o) =>
-                o._id === orderId ? { ...o, stato: newStatus } : o
+            const updated = orders.map((o, i) =>
+                i === orderIndex ? { ...o, stato: newStatus } : o
             );
 
             setOrders(updated);
             alert("Stato aggiornato!");
-        } catch {
+        } catch (err) {
+            console.error("Errore aggiornamento stato ordine:", err);
             alert("Errore aggiornamento stato ordine");
         }
     };
@@ -56,8 +56,8 @@ export default function Orders() {
                 </thead>
 
                 <tbody>
-                    {orders.map((order) => (
-                        <tr key={order._id}>
+                    {orders.map((order, index) => (
+                        <tr key={index}>
                             <td>
                                 {order.cliente?.nome || "—"}{" "}
                                 {order.cliente?.cognome || ""}
@@ -125,7 +125,7 @@ export default function Orders() {
                                 <select
                                     value={order.stato}
                                     onChange={(e) =>
-                                        handleStatusChange(order._id, e.target.value)
+                                        handleStatusChange(index, e.target.value)
                                     }
                                 >
                                     <option value="in attesa">In attesa</option>
@@ -137,7 +137,7 @@ export default function Orders() {
                                 <button
                                     className="update-btn"
                                     onClick={() =>
-                                        handleStatusChange(order._id, order.stato)
+                                        handleStatusChange(index, order.stato)
                                     }
                                 >
                                     Aggiorna

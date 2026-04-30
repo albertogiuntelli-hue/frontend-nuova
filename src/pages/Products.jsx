@@ -9,11 +9,23 @@ export default function Products() {
     useEffect(() => {
         const load = async () => {
             const data = await getProducts();
-            setProducts(data);
+            setProducts(data || []);
             setLoading(false);
         };
         load();
     }, []);
+
+    const getImage = (img) => {
+        if (!img || img.trim() === "" || img.toLowerCase() === "null") {
+            return "/plusmarket-logo.png";
+        }
+        return img;
+    };
+
+    const formatPrice = (value) => {
+        if (!value || isNaN(value)) return "—";
+        return (value / 100).toFixed(2) + " €";
+    };
 
     if (loading) return <h2>Caricamento prodotti...</h2>;
 
@@ -36,10 +48,10 @@ export default function Products() {
                         <tr key={index}>
                             <td>{p.codice}</td>
                             <td>{p.nome}</td>
-                            <td>{p.prezzo ? `${p.prezzo / 100} €` : "—"}</td>
+                            <td>{formatPrice(p.prezzo)}</td>
                             <td>
                                 <img
-                                    src={p.immagine}
+                                    src={getImage(p.immagine)}
                                     alt={p.nome}
                                     style={{
                                         width: "60px",
