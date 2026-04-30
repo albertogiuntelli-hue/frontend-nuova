@@ -1,6 +1,6 @@
 // frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { getPromo } from "../api/promo";
 import UploadCSV from "../components/UploadCSV";
 import "./Promo.css";
 
@@ -8,28 +8,17 @@ export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // 🔥 Legge direttamente il CSV con le immagini Cloudinary
-    const loadPromo = async () => {
-        try {
-            const response = await fetch("/backend/uploads/promo-latest.csv");
-            const csvText = await response.text();
-
-            Papa.parse(csvText, {
-                header: true,
-                delimiter: ";",
-                complete: (results) => {
-                    setPromo(results.data);
-                    setLoading(false);
-                }
-            });
-        } catch (error) {
-            console.error("Errore caricamento promo:", error);
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        loadPromo();
+        const load = async () => {
+            try {
+                const data = await getPromo();
+                setPromo(data || []);
+            } catch (err) {
+                console.error("Errore caricamento promo:", err);
+            }
+            setLoading(false);
+        };
+        load();
     }, []);
 
     if (loading) return <h2>Caricamento promo...</h2>;
@@ -45,7 +34,7 @@ export default function Promo() {
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
 
-            {/* 🔥 Upload CSV promo */}
+            {/* Upload CSV promo */}
             <UploadCSV type="promo" />
 
             <table className="promo-table">
@@ -62,8 +51,12 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-                            <td>{p.descrizione || p.nome || "—"}</td>
-                            <td>{p.prezzo ? `${p.prezzo} €` : "—"}</td>
+                            <td>{p.nome || p.descrizione || "—"}</td>
+                            <td>
+                                {p.prezzo
+                                    ? (p.prezzo / 100).toFixed(2) + " €"
+                                    : "—"}
+                            </td>
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
