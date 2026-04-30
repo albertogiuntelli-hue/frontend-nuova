@@ -7,6 +7,7 @@ export default function Dashboard() {
             <h1 className="dashboard-title">Dashboard Amministrazione</h1>
 
             <div className="dashboard-cards">
+
                 <Link to="/admin/upload" className="dashboard-card">
                     <h3>Carica CSV</h3>
                     <p>Carica prodotti o promo</p>
@@ -27,6 +28,11 @@ export default function Dashboard() {
                     <p>Visualizza gli ordini</p>
                 </Link>
 
+                <Link to="/admin/orders/archive" className="dashboard-card">
+                    <h3>Archivio Ordini</h3>
+                    <p>Ordini completati</p>
+                </Link>
+
                 <Link to="/admin/users" className="dashboard-card">
                     <h3>Utenti</h3>
                     <p>Gestisci gli utenti</p>
@@ -36,6 +42,7 @@ export default function Dashboard() {
                     <h3>Categorie</h3>
                     <p>Gestisci le categorie</p>
                 </Link>
+
             </div>
         </div>
     );

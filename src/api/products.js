@@ -1,13 +1,5 @@
-// frontend/src/api/products.js
-import api from "./axios";
+import api from "./api";
 
-/*
- * API PRODOTTI
- * Tutte le chiamate puntano a:
- * http://localhost:5000/api/products
- */
-
-// Ottiene tutti i prodotti
 export const getProducts = async () => {
     try {
         const res = await api.get("/products");
@@ -18,14 +10,12 @@ export const getProducts = async () => {
     }
 };
 
-// Upload CSV prodotti
 export const uploadProducts = async (formData) => {
     return api.post("/products/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
     });
 };
 
-// Cancella tutti i prodotti
 export const deleteProducts = async () => {
     return api.delete("/products/delete");
 };

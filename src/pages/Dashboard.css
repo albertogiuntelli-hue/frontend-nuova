@@ -2,6 +2,8 @@
     padding: 30px;
     background: #F5F7FA;
     min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dashboard-title {
@@ -11,27 +13,42 @@
     margin-bottom: 25px;
 }
 
+/* Griglia moderna e stabile */
 .dashboard-cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
 }
 
+/* Card stile PlusMarket */
 .dashboard-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 250px;
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
 }
 
+/* Hover professionale */
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    border-color: #FF7A00;
+}
+
+/* Titolo card */
 .dashboard-card h3 {
     color: #FF7A00;
     margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
+/* Testo card */
 .dashboard-card p {
     color: #555;
-    font-size: 16px;
+    font-size: 15px;
+    margin: 0;
 }

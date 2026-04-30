@@ -1,9 +1,8 @@
-import api from "./axios";
+import api from "./api";
 
-// Ottiene tutti gli utenti
 export const getUsers = async () => {
     try {
-        const res = await api.get("/api/users");
+        const res = await api.get("/users");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento utenti:", error);
@@ -11,7 +10,21 @@ export const getUsers = async () => {
     }
 };
 
-// Elimina un utente
-export const deleteUser = async (userId) => {
-    return api.delete(`/api/users/${userId}`);
+export const registerUser = async (userData) => {
+    try {
+        const res = await api.post("/users/register", userData);
+        return res.data;
+    } catch (error) {
+        console.error("Errore registrazione utente:", error);
+        throw error;
+    }
+};
+
+export const deleteUser = async (id) => {
+    try {
+        return await api.delete(`/users/${id}`);
+    } catch (error) {
+        console.error("Errore eliminazione utente:", error);
+        throw error;
+    }
 };

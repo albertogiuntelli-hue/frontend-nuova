@@ -1,5 +1,4 @@
-// frontend/src/api/promo.js
-import api from "./axios";
+import api from "./api";
 
 export const getPromo = async () => {
     try {
@@ -12,11 +11,22 @@ export const getPromo = async () => {
 };
 
 export const uploadPromo = async (formData) => {
-    return api.post("/promo/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
+    try {
+        const res = await api.post("/promo/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Errore upload promo:", error);
+        throw error;
+    }
 };
 
 export const deletePromo = async () => {
-    return api.delete("/promo/delete");
+    try {
+        return await api.delete("/promo/delete");
+    } catch (error) {
+        console.error("Errore eliminazione promo:", error);
+        throw error;
+    }
 };
