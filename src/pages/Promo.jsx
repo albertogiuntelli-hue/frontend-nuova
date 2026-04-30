@@ -52,11 +52,14 @@ export default function Promo() {
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
                             <td>{p.nome || p.descrizione || "—"}</td>
+
+                            {/* 🔥 FIX PREZZO: niente divisione per 100 */}
                             <td>
                                 {p.prezzo
-                                    ? (p.prezzo / 100).toFixed(2) + " €"
+                                    ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
+
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
