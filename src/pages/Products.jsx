@@ -15,7 +15,7 @@ export default function Products() {
         load();
     }, []);
 
-    // 🔥 Funzione immagine DEFINITIVA (gestisce tutti i valori sporchi)
+    // 🔥 Funzione immagine DEFINITIVA
     const getImage = (img) => {
         if (!img) return "/plusmarket-logo.png";
 
