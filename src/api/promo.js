@@ -30,3 +30,14 @@ export const deletePromo = async () => {
         throw error;
     }
 };
+
+export const savePromoDates = async (dates) => {
+    try {
+        const res = await api.post("/promo/date", dates);
+        return res.data;
+    } catch (error) {
+        console.error("Errore salvataggio date promo:", error);
+        throw error;
+    }
+};
+
