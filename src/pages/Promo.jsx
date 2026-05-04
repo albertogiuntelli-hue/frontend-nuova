@@ -1,4 +1,3 @@
-// rebuild trigger
 // frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
@@ -28,13 +27,14 @@ export default function Promo() {
 
         const cleaned = img.trim().toLowerCase();
 
+        // Copre TUTTE le varianti che arrivano dal backend
         if (
             cleaned === "" ||
             cleaned === "null" ||
             cleaned === "undefined" ||
             cleaned === "n/d" ||
             cleaned === "-" ||
-            cleaned === "immagine promo"
+            cleaned.includes("immagine") // <--- COPRE "Immagine promo"
         ) {
             return "/plusmarket-logo.png";
         }
@@ -64,18 +64,13 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-
-                            {/* ✔ Usa sempre p.descrizione */}
                             <td>{p.descrizione || "—"}</td>
-
-                            {/* ✔ Prezzo già corretto */}
                             <td>
                                 {p.prezzo
                                     ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
 
-                            {/* ✔ Immagine corretta */}
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}

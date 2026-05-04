@@ -1,3 +1,4 @@
+// frontend/src/api/promo.js
 import api from "./api";
 
 export const getPromo = async () => {
@@ -40,4 +41,3 @@ export const savePromoDates = async (dates) => {
         throw error;
     }
 };
-
