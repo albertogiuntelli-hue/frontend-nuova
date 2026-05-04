@@ -15,7 +15,7 @@ export default function UploadCSV({ type = "promo" }) {
     // Riferimento al selettore file
     const fileInputRef = useRef(null);
 
-    // Primo click → mostra box date
+    // Primo click → mostra box date (solo promo)
     const handleClick = () => {
         if (type === "promo") {
             setShowDateBox(true);
@@ -24,10 +24,21 @@ export default function UploadCSV({ type = "promo" }) {
         }
     };
 
-    // Dopo aver confermato le date → apri selettore file
-    const handleConfirmDates = () => {
+    // Dopo aver confermato le date → salva date → apri selettore file
+    const handleConfirmDates = async () => {
         if (!dataInizio || !dataFine) {
             alert("Inserisci entrambe le date");
+            return;
+        }
+
+        try {
+            await savePromoDates({
+                data_inizio: dataInizio,
+                data_fine: dataFine
+            });
+        } catch (err) {
+            console.error("Errore salvataggio date:", err);
+            alert("Errore nel salvataggio delle date");
             return;
         }
 
@@ -48,15 +59,7 @@ export default function UploadCSV({ type = "promo" }) {
 
         try {
             if (type === "promo") {
-                // 1️⃣ Carico il CSV
                 await uploadPromo(formData);
-
-                // 2️⃣ Salvo le date
-                await savePromoDates({
-                    data_inizio: dataInizio,
-                    data_fine: dataFine
-                });
-
                 setMessage("Promo + date caricate con successo!");
             } else {
                 await uploadProducts(formData);
@@ -67,7 +70,11 @@ export default function UploadCSV({ type = "promo" }) {
             setMessage("Errore durante il caricamento del file.");
         }
 
+        // Reset
         setLoading(false);
+        setDataInizio("");
+        setDataFine("");
+        e.target.value = "";
     };
 
     return (
