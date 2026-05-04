@@ -1,3 +1,4 @@
+// frontend/src/pages/Products.jsx
 import { useEffect, useState } from "react";
 import { getProducts } from "../api/products";
 import "./Products.css";
@@ -15,7 +16,7 @@ export default function Products() {
         load();
     }, []);
 
-    // 🔥 Funzione immagine DEFINITIVA
+    // 🔥 Funzione immagine DEFINITIVA (identica alla pagina Promo)
     const getImage = (img) => {
         if (!img) return "/plusmarket-logo.png";
 
@@ -64,7 +65,9 @@ export default function Products() {
                             <td>{p.codice}</td>
                             <td>{p.nome}</td>
                             <td>{formatPrice(p.prezzo)}</td>
-                            <td>
+
+                            {/* ✔ Immagine con fallback al logo */}
+                            <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
                                     alt={p.nome}
@@ -74,7 +77,8 @@ export default function Products() {
                                         objectFit: "contain",
                                         borderRadius: "6px",
                                         backgroundColor: "#fff",
-                                        padding: "4px"
+                                        padding: "4px",
+                                        border: "1px solid #ddd"
                                     }}
                                 />
                             </td>
