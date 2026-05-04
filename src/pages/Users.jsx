@@ -30,10 +30,12 @@ export default function Users() {
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>Cognome</th>
                         <th>Telefono</th>
                         <th>Indirizzo</th>
                         <th>Note</th>
                         <th>Email</th>
+                        <th>Data Registrazione</th>
                     </tr>
                 </thead>
 
@@ -41,10 +43,16 @@ export default function Users() {
                     {users.map((u, index) => (
                         <tr key={index}>
                             <td>{u.nome || "—"}</td>
+                            <td>{u.cognome || "—"}</td>
                             <td>{u.telefono || "—"}</td>
                             <td>{u.indirizzo || "—"}</td>
                             <td>{u.note || "—"}</td>
                             <td>{u.email || "—"}</td>
+                            <td>
+                                {u.data_registrazione
+                                    ? new Date(u.data_registrazione).toLocaleString("it-IT")
+                                    : "—"}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
