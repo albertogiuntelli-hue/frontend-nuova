@@ -1,3 +1,4 @@
+// rebuild trigger
 // frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
