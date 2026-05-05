@@ -1,4 +1,3 @@
-// frontend/src/pages/Products.jsx
 import { useEffect, useState } from "react";
 import { getProducts } from "../api/products";
 import "./Products.css";
@@ -40,7 +39,7 @@ export default function Products() {
                     {products.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice}</td>
-                            <td>{p.descrizione}</td>
+                            <td>{p.descrizione || p.nome || "—"}</td>
                             <td>{formatPrice(p.prezzo)}</td>
                         </tr>
                     ))}
