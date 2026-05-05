@@ -1,3 +1,4 @@
+// frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
 import UploadCSV from "../components/UploadCSV";
@@ -61,12 +62,16 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
+
+                            {/* ✔ Usa descrizione, altrimenti nome */}
                             <td>{p.descrizione || p.nome || "—"}</td>
+
                             <td>
                                 {p.prezzo
                                     ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
+
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={getImage(p.immagine)}
@@ -78,7 +83,7 @@ export default function Promo() {
                                         backgroundColor: "#fff",
                                         borderRadius: "6px",
                                         padding: "4px",
-                                        border: "1px solid "#ddd"
+                                        border: "1px solid #ddd"
                                     }}
                                 />
                             </td>
