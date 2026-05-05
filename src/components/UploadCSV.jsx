@@ -7,15 +7,12 @@ export default function UploadCSV({ type = "promo" }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
-    // Stati per le date
     const [showDateBox, setShowDateBox] = useState(false);
     const [dataInizio, setDataInizio] = useState("");
     const [dataFine, setDataFine] = useState("");
 
-    // Riferimento al selettore file
     const fileInputRef = useRef(null);
 
-    // Primo click → mostra box date (solo promo)
     const handleClick = () => {
         if (type === "promo") {
             setShowDateBox(true);
@@ -24,7 +21,6 @@ export default function UploadCSV({ type = "promo" }) {
         }
     };
 
-    // Dopo aver confermato le date → salva date → apri selettore file
     const handleConfirmDates = async () => {
         if (!dataInizio || !dataFine) {
             alert("Inserisci entrambe le date");
@@ -46,7 +42,6 @@ export default function UploadCSV({ type = "promo" }) {
         fileInputRef.current.click();
     };
 
-    // Upload effettivo del CSV
     const handleUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -60,7 +55,7 @@ export default function UploadCSV({ type = "promo" }) {
         try {
             if (type === "promo") {
                 await uploadPromo(formData);
-                setMessage("Promo + date caricate con successo!");
+                setMessage("Promo caricate con successo!");
             } else {
                 await uploadProducts(formData);
                 setMessage("Prodotti caricati con successo!");
@@ -70,7 +65,6 @@ export default function UploadCSV({ type = "promo" }) {
             setMessage("Errore durante il caricamento del file.");
         }
 
-        // Reset
         setLoading(false);
         setDataInizio("");
         setDataFine("");
@@ -79,12 +73,10 @@ export default function UploadCSV({ type = "promo" }) {
 
     return (
         <div className="upload-csv">
-            {/* Bottone principale */}
             <label className="upload-label" onClick={handleClick}>
                 {loading ? "Caricamento..." : "Carica CSV"}
             </label>
 
-            {/* Input file nascosto */}
             <input
                 type="file"
                 accept=".csv"
@@ -93,8 +85,7 @@ export default function UploadCSV({ type = "promo" }) {
                 style={{ display: "none" }}
             />
 
-            {/* Box date (solo per promo) */}
-            {showDateBox && (
+            {showDateBox && type === "promo" && (
                 <div
                     style={{
                         marginTop: "15px",

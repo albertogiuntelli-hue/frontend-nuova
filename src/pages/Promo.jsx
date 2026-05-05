@@ -21,20 +21,18 @@ export default function Promo() {
         load();
     }, []);
 
-    // 🔥 Funzione immagine DEFINITIVA
     const getImage = (img) => {
         if (!img) return "/plusmarket-logo.png";
 
         const cleaned = img.trim().toLowerCase();
 
-        // Copre TUTTE le varianti che arrivano dal backend
         if (
             cleaned === "" ||
             cleaned === "null" ||
             cleaned === "undefined" ||
             cleaned === "n/d" ||
             cleaned === "-" ||
-            cleaned.includes("immagine") // <--- COPRE "Immagine promo"
+            cleaned.includes("immagine")
         ) {
             return "/plusmarket-logo.png";
         }

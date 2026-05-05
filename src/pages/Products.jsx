@@ -16,28 +16,6 @@ export default function Products() {
         load();
     }, []);
 
-    // 🔥 Funzione immagine DEFINITIVA (identica alla pagina Promo)
-    const getImage = (img) => {
-        if (!img) return "/plusmarket-logo.png";
-
-        const cleaned = img.trim().toLowerCase();
-
-        if (
-            cleaned === "" ||
-            cleaned === "null" ||
-            cleaned === "undefined" ||
-            cleaned === "n/d" ||
-            cleaned === "-" ||
-            cleaned === "immagine" ||
-            cleaned === "immagine prodotto" ||
-            cleaned === "immagine promo"
-        ) {
-            return "/plusmarket-logo.png";
-        }
-
-        return img;
-    };
-
     const formatPrice = (value) => {
         if (!value || isNaN(value)) return "—";
         return Number(value).toFixed(2) + " €";
@@ -53,9 +31,8 @@ export default function Products() {
                 <thead>
                     <tr>
                         <th>Codice</th>
-                        <th>Nome</th>
+                        <th>Descrizione</th>
                         <th>Prezzo</th>
-                        <th>Immagine</th>
                     </tr>
                 </thead>
 
@@ -63,25 +40,8 @@ export default function Products() {
                     {products.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice}</td>
-                            <td>{p.nome}</td>
+                            <td>{p.descrizione}</td>
                             <td>{formatPrice(p.prezzo)}</td>
-
-                            {/* ✔ Immagine con fallback al logo */}
-                            <td style={{ textAlign: "center" }}>
-                                <img
-                                    src={getImage(p.immagine)}
-                                    alt={p.nome}
-                                    style={{
-                                        width: "60px",
-                                        height: "60px",
-                                        objectFit: "contain",
-                                        borderRadius: "6px",
-                                        backgroundColor: "#fff",
-                                        padding: "4px",
-                                        border: "1px solid #ddd"
-                                    }}
-                                />
-                            </td>
                         </tr>
                     ))}
                 </tbody>
