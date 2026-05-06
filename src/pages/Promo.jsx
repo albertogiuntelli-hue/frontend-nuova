@@ -11,6 +11,7 @@ export default function Promo() {
     const [dataInizio, setDataInizio] = useState("");
     const [dataFine, setDataFine] = useState("");
 
+    // Carica promo
     useEffect(() => {
         const load = async () => {
             try {
