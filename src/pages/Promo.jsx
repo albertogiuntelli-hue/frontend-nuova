@@ -21,19 +21,27 @@ export default function Promo() {
         load();
     }, []);
 
+    // 🔥 Funzione immagine DEFINITIVA
     const getImage = (img) => {
         if (!img) return "/plusmarket-logo.png";
 
         const cleaned = img.trim().toLowerCase();
 
-        if (
-            cleaned === "" ||
-            cleaned === "null" ||
-            cleaned === "undefined" ||
-            cleaned === "n/d" ||
-            cleaned === "-" ||
-            cleaned.includes("immagine")
-        ) {
+        // Tutti i casi sporchi possibili
+        const invalids = [
+            "",
+            "null",
+            "undefined",
+            "n/d",
+            "-",
+            "immagine",
+            "immagine promo",
+            "immagine_prodotto",
+            "immagineprodotto"
+        ];
+
+        // Se è un valore sporco → logo
+        if (invalids.includes(cleaned) || cleaned.includes("immagine")) {
             return "/plusmarket-logo.png";
         }
 
