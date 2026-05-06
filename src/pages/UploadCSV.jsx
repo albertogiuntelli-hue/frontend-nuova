@@ -1,50 +1,31 @@
-// frontend/src/components/UploadCSV.jsx
 import { useState, useRef } from "react";
-import axios from "axios";
-import "./UploadCSV.css";
+import { uploadPromo } from "../api/promo";
+import { uploadProducts } from "../api/products";
 
-export default function UploadCSV() {
-    const [file, setFile] = useState(null);
+export default function UploadCSV({ type = "promo" }) {
+    const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
-    // Stati per le date (solo promo)
+    // 🔥 SOLO PER PROMO: date
     const [showDateBox, setShowDateBox] = useState(false);
     const [dataInizio, setDataInizio] = useState("");
     const [dataFine, setDataFine] = useState("");
 
     const fileInputRef = useRef(null);
-    const pendingType = useRef(null);
 
-    // Quando clicchi "Carica CSV Promo"
-    const handlePromoClick = () => {
-        pendingType.current = "promo";
-        setShowDateBox(true);
-    };
-
-    // Quando clicchi "Carica CSV Prodotti"
-    const handleProductsClick = () => {
-        pendingType.current = "products";
-        fileInputRef.current.click();
-    };
-
-    // Conferma date → salva date → apri file picker
-    const handleConfirmDates = async () => {
-        if (!dataInizio || !dataFine) {
-            alert("Inserisci entrambe le date");
+    const handleClick = () => {
+        if (type === "promo") {
+            setShowDateBox(true);
             return;
         }
 
-        try {
-            await axios.post(
-                `${import.meta.env.VITE_API_URL}/promo/date`,
-                {
-                    data_inizio: dataInizio,
-                    data_fine: dataFine
-                }
-            );
-        } catch (err) {
-            console.error("Errore salvataggio date:", err);
-            alert("Errore nel salvataggio delle date");
+        // prodotti + dashboard
+        fileInputRef.current.click();
+    };
+
+    const handleConfirmDates = () => {
+        if (!dataInizio || !dataFine) {
+            alert("Inserisci entrambe le date");
             return;
         }
 
@@ -52,7 +33,6 @@ export default function UploadCSV() {
         fileInputRef.current.click();
     };
 
-    // Upload effettivo del CSV
     const handleUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -60,58 +40,39 @@ export default function UploadCSV() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const type = pendingType.current;
+        if (type === "promo") {
+            formData.append("data_inizio", dataInizio);
+            formData.append("data_fine", dataFine);
+        }
 
-        const endpoint =
-            type === "products"
-                ? `${import.meta.env.VITE_API_URL}/products/upload`
-                : `${import.meta.env.VITE_API_URL}/promo/upload`;
+        setLoading(true);
+        setMessage("");
 
         try {
-            const res = await axios.post(endpoint, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-
-            setMessage(res.data.message || "File caricato con successo!");
+            if (type === "promo") {
+                await uploadPromo(formData);
+                setMessage("Promo caricate con successo!");
+            } else {
+                await uploadProducts(formData);
+                setMessage("Prodotti caricati con successo!");
+            }
         } catch (error) {
             console.error("Errore upload CSV:", error);
             setMessage("Errore durante il caricamento del file.");
         }
 
-        // Reset
-        setFile(null);
+        setLoading(false);
         e.target.value = "";
-        setDataInizio("");
-        setDataFine("");
     };
 
     return (
-        <div className="upload-page">
-            <h2>Carica File CSV</h2>
+        <div className="upload-csv">
+            <label className="upload-label" onClick={handleClick}>
+                {loading ? "Caricamento..." : "Carica CSV"}
+            </label>
 
-            <div className="upload-box">
-                <input
-                    type="file"
-                    accept=".csv"
-                    ref={fileInputRef}
-                    onChange={handleUpload}
-                    style={{ display: "none" }}
-                />
-
-                <button onClick={handleProductsClick}>
-                    Carica CSV Prodotti
-                </button>
-
-                <button onClick={handlePromoClick}>
-                    Carica CSV Promo
-                </button>
-            </div>
-
-            {/* Box date per promo */}
-            {showDateBox && (
+            {showDateBox && type === "promo" && (
                 <div className="date-box">
-                    <h4>Inserisci le date della promo</h4>
-
                     <label>Data inizio:</label>
                     <input
                         type="date"
@@ -126,11 +87,19 @@ export default function UploadCSV() {
                         onChange={(e) => setDataFine(e.target.value)}
                     />
 
-                    <button className="confirm-btn" onClick={handleConfirmDates}>
-                        Continua
+                    <button onClick={handleConfirmDates}>
+                        Continua e scegli il file
                     </button>
                 </div>
             )}
+
+            <input
+                type="file"
+                accept=".csv"
+                ref={fileInputRef}
+                onChange={handleUpload}
+                style={{ display: "none" }}
+            />
 
             {message && <p className="upload-message">{message}</p>}
         </div>
