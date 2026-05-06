@@ -1,4 +1,3 @@
-// frontend/src/pages/Promo.jsx
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
 import UploadCSV from "../components/UploadCSV";
@@ -9,10 +8,9 @@ export default function Promo() {
     const [loading, setLoading] = useState(true);
 
     // 🔥 Date promo
-    const [dataInizio, setDataInizio] = useState(null);
-    const [dataFine, setDataFine] = useState(null);
+    const [dataInizio, setDataInizio] = useState("");
+    const [dataFine, setDataFine] = useState("");
 
-    // Carica promo
     useEffect(() => {
         const load = async () => {
             try {
@@ -26,61 +24,37 @@ export default function Promo() {
         load();
     }, []);
 
-    // Carica date promo
-    useEffect(() => {
-        const loadDates = async () => {
-            try {
-                const res = await fetch("/promo/dates");
-                const data = await res.json();
-                setDataInizio(data.data_inizio);
-                setDataFine(data.data_fine);
-            } catch (err) {
-                console.error("Errore caricamento date promo:", err);
-            }
-        };
-        loadDates();
-    }, []);
-
-    // 🔥 Funzione immagine DEFINITIVA
-    const getImage = (img) => {
-        if (!img) return "/plusmarket-logo.png";
-
-        const cleaned = img.trim().toLowerCase();
-
-        const invalids = [
-            "",
-            "null",
-            "undefined",
-            "n/d",
-            "-",
-            "immagine",
-            "immagine promo",
-            "immagine_prodotto",
-            "immagineprodotto"
-        ];
-
-        if (invalids.includes(cleaned) || cleaned.includes("immagine")) {
-            return "/plusmarket-logo.png";
-        }
-
-        return img;
-    };
-
     if (loading) return <h2>Caricamento promo...</h2>;
 
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
 
-            {/* 🔥 Banner date promo */}
-            {dataInizio && dataFine && (
-                <div className="promo-date-banner">
-                    Offerte valide dal <strong>{dataInizio}</strong> al{" "}
-                    <strong>{dataFine}</strong>
-                </div>
-            )}
+            {/* 🔥 Box date */}
+            <div className="promo-date-box">
+                <label>Data inizio:</label>
+                <input
+                    type="date"
+                    value={dataInizio}
+                    onChange={(e) => setDataInizio(e.target.value)}
+                />
 
-            <UploadCSV type="promo" />
+                <label>Data fine:</label>
+                <input
+                    type="date"
+                    value={dataFine}
+                    onChange={(e) => setDataFine(e.target.value)}
+                />
+            </div>
+
+            {/* 🔥 Upload CSV promo con date */}
+            <UploadCSV
+                type="promo"
+                extraData={{
+                    data_inizio: dataInizio,
+                    data_fine: dataFine
+                }}
+            />
 
             <table className="promo-table">
                 <thead>
@@ -96,18 +70,15 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-
                             <td>{p.descrizione || p.nome || "—"}</td>
-
                             <td>
                                 {p.prezzo
                                     ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
-
                             <td style={{ textAlign: "center" }}>
                                 <img
-                                    src={getImage(p.immagine)}
+                                    src={p.immagine || "/plusmarket-logo.png"}
                                     alt="Immagine promo"
                                     style={{
                                         width: "80px",

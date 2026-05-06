@@ -2,11 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import "./UploadCSV.css";
 
-export default function UploadCSV() {
+export default function UploadCSV({ type = "products", extraData = {} }) {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
-    const upload = async (type) => {
+    const upload = async () => {
         if (!file) {
             setMessage("Seleziona un file CSV prima di caricare.");
             return;
@@ -14,6 +14,13 @@ export default function UploadCSV() {
 
         const formData = new FormData();
         formData.append("file", file);
+
+        // 🔥 Aggiunta SOLO per promo
+        for (const key in extraData) {
+            if (extraData[key]) {
+                formData.append(key, extraData[key]);
+            }
+        }
 
         const endpoint =
             type === "products"
@@ -34,8 +41,6 @@ export default function UploadCSV() {
 
     return (
         <div className="upload-page">
-            <h2>Carica File CSV</h2>
-
             <div className="upload-box">
                 <input
                     type="file"
@@ -43,12 +48,8 @@ export default function UploadCSV() {
                     onChange={(e) => setFile(e.target.files[0])}
                 />
 
-                <button onClick={() => upload("products")}>
-                    Carica CSV Prodotti
-                </button>
-
-                <button onClick={() => upload("promo")}>
-                    Carica CSV Promo
+                <button onClick={upload}>
+                    Carica CSV
                 </button>
             </div>
 
