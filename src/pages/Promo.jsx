@@ -8,6 +8,11 @@ export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // 🔥 Date promo
+    const [dataInizio, setDataInizio] = useState(null);
+    const [dataFine, setDataFine] = useState(null);
+
+    // Carica promo
     useEffect(() => {
         const load = async () => {
             try {
@@ -21,13 +26,27 @@ export default function Promo() {
         load();
     }, []);
 
+    // Carica date promo
+    useEffect(() => {
+        const loadDates = async () => {
+            try {
+                const res = await fetch("/promo/dates");
+                const data = await res.json();
+                setDataInizio(data.data_inizio);
+                setDataFine(data.data_fine);
+            } catch (err) {
+                console.error("Errore caricamento date promo:", err);
+            }
+        };
+        loadDates();
+    }, []);
+
     // 🔥 Funzione immagine DEFINITIVA
     const getImage = (img) => {
         if (!img) return "/plusmarket-logo.png";
 
         const cleaned = img.trim().toLowerCase();
 
-        // Tutti i casi sporchi possibili
         const invalids = [
             "",
             "null",
@@ -40,7 +59,6 @@ export default function Promo() {
             "immagineprodotto"
         ];
 
-        // Se è un valore sporco → logo
         if (invalids.includes(cleaned) || cleaned.includes("immagine")) {
             return "/plusmarket-logo.png";
         }
@@ -53,6 +71,14 @@ export default function Promo() {
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
+
+            {/* 🔥 Banner date promo */}
+            {dataInizio && dataFine && (
+                <div className="promo-date-banner">
+                    Offerte valide dal <strong>{dataInizio}</strong> al{" "}
+                    <strong>{dataFine}</strong>
+                </div>
+            )}
 
             <UploadCSV type="promo" />
 
@@ -71,7 +97,6 @@ export default function Promo() {
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
 
-                            {/* ✔ Usa descrizione, altrimenti nome */}
                             <td>{p.descrizione || p.nome || "—"}</td>
 
                             <td>
