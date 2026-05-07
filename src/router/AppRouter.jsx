@@ -8,8 +8,7 @@ import Promo from "../pages/Promo";
 import Orders from "../pages/Orders";
 import Users from "../pages/Users";
 import Categories from "../pages/Categories";
-import UploadCSV from "../pages/UploadCSV";
-import OrdersArchive from "../pages/OrdersArchive";   // ⭐ NUOVO IMPORT
+import OrdersArchive from "../pages/OrdersArchive";
 
 import Login from "../pages/Login";
 import Shop from "../pages/Shop";
@@ -34,10 +33,10 @@ export default function AppRouter() {
                     <Route path="products" element={<Products />} />
                     <Route path="promo" element={<Promo />} />
                     <Route path="orders" element={<Orders />} />
-                    <Route path="orders/archive" element={<OrdersArchive />} /> {/* ⭐ NUOVA ROTTA */}
+                    <Route path="orders/archive" element={<OrdersArchive />} />
                     <Route path="users" element={<Users />} />
                     <Route path="categories" element={<Categories />} />
-                    <Route path="upload" element={<UploadCSV />} />
+                    {/* 🔥 RIMOSSO: <Route path="upload" element={<UploadCSV />} /> */}
                 </Route>
 
                 {/* SHOP AREA */}
@@ -46,7 +45,7 @@ export default function AppRouter() {
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
 
-                {/* CATCH-ALL: se la route non esiste → login */}
+                {/* CATCH-ALL */}
                 <Route path="*" element={<Navigate to="/" replace />} />
 
             </Routes>
