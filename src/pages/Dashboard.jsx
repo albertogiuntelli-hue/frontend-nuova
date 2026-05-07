@@ -25,7 +25,7 @@ export default function Dashboard() {
         <div className="dashboard-container">
             <h1 className="dashboard-title">Dashboard Amministrazione</h1>
 
-            {/* 🔥 Banner date promo attive */}
+            {/* Banner date promo attive */}
             {dates.data_inizio && dates.data_fine && (
                 <div className="dashboard-promo-banner">
                     Promo attive dal <strong>{dates.data_inizio}</strong> al{" "}
@@ -34,9 +34,6 @@ export default function Dashboard() {
             )}
 
             <div className="dashboard-cards">
-
-                {/* 🔥 RIMOSSO: vecchio Carica CSV */}
-                {/* <Link to="/admin/upload" className="dashboard-card"> ... </Link> */}
 
                 <Link to="/admin/products" className="dashboard-card">
                     <h3>Prodotti</h3>
