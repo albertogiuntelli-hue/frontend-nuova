@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/api";
 import "./UploadCSV.css";
 
 export default function UploadCSV({ type = "products", extraData = {} }) {
@@ -15,21 +15,19 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
         const formData = new FormData();
         formData.append("file", file);
 
-        // ExtraData viene usato solo per le promo (date)
         for (const key in extraData) {
             if (extraData[key]) {
                 formData.append(key, extraData[key]);
             }
         }
 
-        // 🔥 ENDPOINT CORRETTO CON /api/
         const endpoint =
             type === "products"
-                ? `${import.meta.env.VITE_API_URL}/api/products/upload`
-                : `${import.meta.env.VITE_API_URL}/api/promo/upload`;
+                ? "/products/upload"
+                : "/promo/upload";
 
         try {
-            const res = await axios.post(endpoint, formData, {
+            const res = await api.post(endpoint, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 

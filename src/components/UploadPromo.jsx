@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/api";
 import "./UploadCSV.css";
 
 export default function UploadPromo({ dataInizio, dataFine }) {
@@ -18,11 +18,9 @@ export default function UploadPromo({ dataInizio, dataFine }) {
         formData.append("data_fine", dataFine);
 
         try {
-            const res = await axios.post(
-                `${import.meta.env.VITE_API_URL}/promo/upload`,
-                formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
-            );
+            const res = await api.post("/promo/upload", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
 
             setMessage(res.data.message || "File promo caricato con successo!");
         } catch (error) {
