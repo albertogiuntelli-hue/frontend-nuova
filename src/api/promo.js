@@ -41,3 +41,14 @@ export const savePromoDates = async (dates) => {
         throw error;
     }
 };
+
+// 🟩 AGGIUNTO: funzione mancante
+export const getPromoDates = async () => {
+    try {
+        const res = await api.get("/promo/dates");
+        return res.data || {};
+    } catch (error) {
+        console.error("Errore caricamento date promo:", error);
+        return {};
+    }
+};
