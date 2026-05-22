@@ -9,6 +9,7 @@ import Orders from "../pages/Orders";
 import Users from "../pages/Users";
 import Categories from "../pages/Categories";
 import OrdersArchive from "../pages/OrdersArchive";
+import CaricaCSV from "../pages/CaricaCSV";
 
 import Login from "../pages/Login";
 import Shop from "../pages/Shop";
@@ -21,13 +22,9 @@ export default function AppRouter() {
         <Router>
             <Routes>
 
-                {/* LOGIN */}
                 <Route path="/" element={<Login />} />
-
-                {/* REDIRECT /dashboard → /admin */}
                 <Route path="/dashboard" element={<Navigate to="/admin" replace />} />
 
-                {/* ADMIN AREA */}
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="products" element={<Products />} />
@@ -36,16 +33,15 @@ export default function AppRouter() {
                     <Route path="orders/archive" element={<OrdersArchive />} />
                     <Route path="users" element={<Users />} />
                     <Route path="categories" element={<Categories />} />
-                    {/* 🔥 RIMOSSO: <Route path="upload" element={<UploadCSV />} /> */}
+
+                    <Route path="carica-csv" element={<CaricaCSV />} />
                 </Route>
 
-                {/* SHOP AREA */}
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
 
-                {/* CATCH-ALL */}
                 <Route path="*" element={<Navigate to="/" replace />} />
 
             </Routes>
