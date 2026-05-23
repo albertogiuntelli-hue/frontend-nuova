@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { getPromo } from "../api/promo";
-import UploadPromo from "../components/UploadPromo";
 import "./Promo.css";
 
 export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    // Date promo
-    const [dataInizio, setDataInizio] = useState("");
-    const [dataFine, setDataFine] = useState("");
 
     useEffect(() => {
         const load = async () => {
@@ -29,29 +24,6 @@ export default function Promo() {
     return (
         <div className="promo-page">
             <h2>Offerte & Promo</h2>
-
-            {/* Box date */}
-            <div className="promo-date-box">
-                <label>Data inizio:</label>
-                <input
-                    type="date"
-                    value={dataInizio}
-                    onChange={(e) => setDataInizio(e.target.value)}
-                />
-
-                <label>Data fine:</label>
-                <input
-                    type="date"
-                    value={dataFine}
-                    onChange={(e) => setDataFine(e.target.value)}
-                />
-            </div>
-
-            {/* Upload CSV promo */}
-            <UploadPromo
-                dataInizio={dataInizio}
-                dataFine={dataFine}
-            />
 
             <table className="promo-table">
                 <thead>
