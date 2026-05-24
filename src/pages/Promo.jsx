@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPromo } from "../api/promo";
+import axios from "../api/axios";
 import "./Promo.css";
 
 export default function Promo() {
@@ -7,63 +7,62 @@ export default function Promo() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const load = async () => {
+        const loadPromo = async () => {
             try {
-                const data = await getPromo();
-                setPromo(data || []);
+                const res = await axios.get("/promo");
+                const data = res.data || [];
+
+                // 🔥 Promo già in EURO dal backend
+                const parsed = data.map((row) => ({
+                    codice: row.codice,
+                    nome: row.descrizione,
+                    prezzo: row.prezzo, // EURO
+                    immagine: row.immagine,
+                }));
+
+                setPromo(parsed);
             } catch (err) {
                 console.error("Errore caricamento promo:", err);
             }
             setLoading(false);
         };
-        load();
+
+        loadPromo();
     }, []);
 
-    if (loading) return <h2>Caricamento promo...</h2>;
+    // 🔥 FORMATO EURO CORRETTO (con virgola)
+    const formatPrice = (value) => {
+        if (value === null || value === undefined || value === "" || isNaN(value)) {
+            return "—";
+        }
+
+        return Number(value)
+            .toFixed(2)
+            .replace(".", ",") + " €";
+    };
+
+    if (loading) return <h2 style={{ textAlign: "center" }}>Caricamento promo...</h2>;
 
     return (
-        <div className="promo-page">
-            <h2>Offerte & Promo</h2>
+        <div className="promo-container">
+            <h2 className="promo-title">Offerte Speciali</h2>
 
-            <table className="promo-table">
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Descrizione</th>
-                        <th>Prezzo</th>
-                        <th>Immagine</th>
-                    </tr>
-                </thead>
+            <div className="promo-grid">
+                {promo.map((p, index) => (
+                    <div key={index} className="promo-card">
+                        <img
+                            src={p.immagine || "/placeholder.png"}
+                            alt={p.nome}
+                            className="promo-image"
+                        />
 
-                <tbody>
-                    {promo.map((p, index) => (
-                        <tr key={index}>
-                            <td>{p.codice || "—"}</td>
-                            <td>{p.descrizione || "—"}</td>
-                            <td>
-                                {p.prezzo !== undefined && p.prezzo !== null
-                                    ? Number(p.prezzo).toFixed(2) + " €"
-                                    : "—"}
-                            </td>
-                            <td style={{ textAlign: "center" }}>
-                                <img
-                                    src={p.immagine || "/plusmarket-logo.png"}
-                                    alt="Immagine promo"
-                                    style={{
-                                        width: "80px",
-                                        height: "80px",
-                                        objectFit: "contain",
-                                        backgroundColor: "#fff",
-                                        borderRadius: "6px",
-                                        padding: "4px",
-                                        border: "1px solid #ddd"
-                                    }}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                        <div className="promo-info">
+                            <h3 className="promo-name">{p.nome}</h3>
+                            <p className="promo-price">{formatPrice(p.prezzo)}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
