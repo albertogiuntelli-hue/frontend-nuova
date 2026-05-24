@@ -102,12 +102,12 @@ export default function Orders() {
                             </td>
 
                             <td className="data-col">
-                                {new Date(order.createdAt).toLocaleDateString("it-IT")}{" "}
-                                –{" "}
-                                {new Date(order.createdAt).toLocaleTimeString("it-IT", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                })}
+                                {order.createdAt
+                                    ? `${new Date(order.createdAt).toLocaleDateString("it-IT")} – ${new Date(order.createdAt).toLocaleTimeString("it-IT", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    })}`
+                                    : "—"}
                             </td>
 
                             <td>

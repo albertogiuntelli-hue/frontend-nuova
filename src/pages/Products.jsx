@@ -16,7 +16,7 @@ export default function Products() {
     }, []);
 
     const formatPrice = (value) => {
-        if (!value || isNaN(value)) return "—";
+        if (value === undefined || value === null || isNaN(value)) return "—";
         return Number(value).toFixed(2) + " €";
     };
 
@@ -32,6 +32,8 @@ export default function Products() {
                         <th>Codice</th>
                         <th>Descrizione</th>
                         <th>Prezzo</th>
+                        <th>A peso</th>
+                        <th>Immagine</th>
                     </tr>
                 </thead>
 
@@ -39,8 +41,24 @@ export default function Products() {
                     {products.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice}</td>
-                            <td>{p.descrizione || p.nome || "—"}</td>
+                            <td>{p.descrizione || "—"}</td>
                             <td>{formatPrice(p.prezzo)}</td>
+                            <td>{p.a_peso === "S" ? "Sì" : "No"}</td>
+                            <td style={{ textAlign: "center" }}>
+                                <img
+                                    src={p.immagine || "/plusmarket-logo.png"}
+                                    alt="Immagine prodotto"
+                                    style={{
+                                        width: "70px",
+                                        height: "70px",
+                                        objectFit: "contain",
+                                        backgroundColor: "#fff",
+                                        borderRadius: "6px",
+                                        padding: "4px",
+                                        border: "1px solid #ddd"
+                                    }}
+                                />
+                            </td>
                         </tr>
                     ))}
                 </tbody>

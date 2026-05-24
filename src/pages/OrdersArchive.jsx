@@ -108,7 +108,14 @@ export default function OrdersArchive() {
                             <td className="data-col">{getOrderDate(order)}</td>
 
                             <td>
-                                <span className="badge badge-evaso">Evaso</span>
+                                <span
+                                    className={`badge badge-${order.stato?.replace(
+                                        " ",
+                                        "-"
+                                    )}`}
+                                >
+                                    {order.stato || "evaso"}
+                                </span>
                             </td>
                         </tr>
                     ))}

@@ -15,6 +15,7 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
         const formData = new FormData();
         formData.append("file", file);
 
+        // ExtraData viene aggiunto SOLO se presente (oggi non serve)
         for (const key in extraData) {
             if (extraData[key]) {
                 formData.append(key, extraData[key]);

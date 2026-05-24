@@ -1,6 +1,7 @@
 // frontend/src/api/promo.js
 import api from "./api";
 
+// GET /promo
 export const getPromo = async () => {
     try {
         const res = await api.get("/promo");
@@ -11,6 +12,7 @@ export const getPromo = async () => {
     }
 };
 
+// POST /promo/upload
 export const uploadPromo = async (formData) => {
     try {
         const res = await api.post("/promo/upload", formData, {
@@ -23,6 +25,7 @@ export const uploadPromo = async (formData) => {
     }
 };
 
+// DELETE /promo/delete
 export const deletePromo = async () => {
     try {
         return await api.delete("/promo/delete");
@@ -32,17 +35,7 @@ export const deletePromo = async () => {
     }
 };
 
-export const savePromoDates = async (dates) => {
-    try {
-        const res = await api.post("/promo/date", dates);
-        return res.data;
-    } catch (error) {
-        console.error("Errore salvataggio date promo:", error);
-        throw error;
-    }
-};
-
-// 🟩 AGGIUNTO: funzione mancante
+// GET /promo/dates
 export const getPromoDates = async () => {
     try {
         const res = await api.get("/promo/dates");
@@ -50,5 +43,16 @@ export const getPromoDates = async () => {
     } catch (error) {
         console.error("Errore caricamento date promo:", error);
         return {};
+    }
+};
+
+// POST /promo/date
+export const savePromoDates = async (dates) => {
+    try {
+        const res = await api.post("/promo/date", dates);
+        return res.data;
+    } catch (error) {
+        console.error("Errore salvataggio date promo:", error);
+        throw error;
     }
 };

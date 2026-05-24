@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../api/api";
 import "./UploadCSV.css";
 
-export default function UploadPromo({ dataInizio, dataFine }) {
+export default function UploadCSV() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
@@ -14,8 +14,6 @@ export default function UploadPromo({ dataInizio, dataFine }) {
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("data_inizio", dataInizio);
-        formData.append("data_fine", dataFine);
 
         try {
             const res = await api.post("/promo/upload", formData, {
@@ -37,7 +35,7 @@ export default function UploadPromo({ dataInizio, dataFine }) {
                 onChange={(e) => setFile(e.target.files[0])}
             />
 
-            <button onClick={upload} disabled={!dataInizio || !dataFine}>
+            <button onClick={upload}>
                 Carica CSV Promo
             </button>
 

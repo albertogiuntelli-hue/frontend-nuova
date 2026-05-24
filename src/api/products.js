@@ -1,5 +1,6 @@
 import api from "./api";
 
+// GET /products
 export const getProducts = async () => {
     try {
         const res = await api.get("/products");
@@ -10,12 +11,26 @@ export const getProducts = async () => {
     }
 };
 
+// POST /products/upload
 export const uploadProducts = async (formData) => {
-    return api.post("/products/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
+    try {
+        const res = await api.post("/products/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Errore upload prodotti:", error);
+        throw error;
+    }
 };
 
+// DELETE /products/delete
 export const deleteProducts = async () => {
-    return api.delete("/products/delete");
+    try {
+        const res = await api.delete("/products/delete");
+        return res.data;
+    } catch (error) {
+        console.error("Errore eliminazione prodotti:", error);
+        throw error;
+    }
 };

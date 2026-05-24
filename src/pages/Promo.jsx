@@ -39,9 +39,9 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice || "—"}</td>
-                            <td>{p.descrizione || p.nome || "—"}</td>
+                            <td>{p.descrizione || "—"}</td>
                             <td>
-                                {p.prezzo
+                                {p.prezzo !== undefined && p.prezzo !== null
                                     ? Number(p.prezzo).toFixed(2) + " €"
                                     : "—"}
                             </td>
