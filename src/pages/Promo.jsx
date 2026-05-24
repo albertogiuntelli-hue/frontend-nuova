@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "../api/axios";   // 🔥 PERCORSO CORRETTO
+import axios from "../api/axios";
 import "./Promo.css";
 
-export default function PromoAdmin() {
+export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
     const [file, setFile] = useState(null);
@@ -19,7 +19,7 @@ export default function PromoAdmin() {
             const parsed = data.map((row) => ({
                 codice: row.codice,
                 nome: row.descrizione,
-                prezzo: row.prezzo,
+                prezzo: row.prezzo, // EURO
                 immagine: row.immagine,
             }));
 
