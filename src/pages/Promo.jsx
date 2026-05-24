@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../../api/axios";
+import axios from "../api/axios";   // 🔥 PERCORSO CORRETTO
 import "./Promo.css";
 
 export default function PromoAdmin() {
@@ -19,7 +19,7 @@ export default function PromoAdmin() {
             const parsed = data.map((row) => ({
                 codice: row.codice,
                 nome: row.descrizione,
-                prezzo: row.prezzo, // EURO
+                prezzo: row.prezzo,
                 immagine: row.immagine,
             }));
 
