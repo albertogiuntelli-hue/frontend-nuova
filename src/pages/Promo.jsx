@@ -5,7 +5,6 @@ import "./Promo.css";
 export default function Promo() {
     const [promo, setPromo] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [file, setFile] = useState(null);
 
     useEffect(() => {
         loadPromo();
@@ -13,12 +12,12 @@ export default function Promo() {
 
     const loadPromo = async () => {
         try {
-            const res = await api.get("/api/promo");   // CORRETTO
+            const res = await api.get("/api/promo");
             const data = res.data || [];
 
             const parsed = data.map((row) => ({
                 codice: row.codice,
-                nome: row.descrizione,
+                nome: row.descrizione || row.nome,
                 prezzo: row.prezzo,
                 immagine: row.immagine,
             }));
@@ -26,38 +25,8 @@ export default function Promo() {
             setPromo(parsed);
         } catch (err) {
             console.error("Errore caricamento promo:", err);
-        }
-        setLoading(false);
-    };
-
-    const uploadPromo = async () => {
-        if (!file) {
-            alert("Seleziona un file CSV");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            await api.post("/api/promo/upload", formData);   // CORRETTO
-            alert("Promo caricate correttamente");
-            loadPromo();
-        } catch (err) {
-            console.error("Errore upload promo:", err);
-            alert("Errore caricamento promo");
-        }
-    };
-
-    const deletePromo = async () => {
-        if (!window.confirm("Sei sicuro di voler eliminare tutte le promo?")) return;
-
-        try {
-            await api.delete("/api/promo");   // CORRETTO
-            alert("Promo eliminate");
-            loadPromo();
-        } catch (err) {
-            console.error("Errore eliminazione promo:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -65,7 +34,6 @@ export default function Promo() {
         if (value === null || value === undefined || value === "" || isNaN(value)) {
             return "—";
         }
-
         return Number(value).toFixed(2).replace(".", ",") + " €";
     };
 
@@ -73,21 +41,7 @@ export default function Promo() {
 
     return (
         <div className="promo-admin-container">
-            <h1>Gestione Promo</h1>
-
-            <div className="promo-upload-box">
-                <input
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
-                <button onClick={uploadPromo}>Carica Promo</button>
-                <button className="delete-btn" onClick={deletePromo}>
-                    Elimina Promo
-                </button>
-            </div>
-
-            <h2>Promo Attive</h2>
+            <h1>Promo Attive</h1>
 
             <table className="promo-table">
                 <thead>
