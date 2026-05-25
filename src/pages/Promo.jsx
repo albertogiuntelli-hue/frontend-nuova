@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../api/axios";
+import api from "../api/api";
 import "./Promo.css";
 
 export default function Promo() {
@@ -13,7 +13,7 @@ export default function Promo() {
 
     const loadPromo = async () => {
         try {
-            const res = await axios.get("/api/promo");   // ✅ CORRETTO
+            const res = await api.get("/api/promo");   // CORRETTO
             const data = res.data || [];
 
             const parsed = data.map((row) => ({
@@ -40,7 +40,7 @@ export default function Promo() {
         formData.append("file", file);
 
         try {
-            await axios.post("/api/promo/upload", formData);   // ✅ CORRETTO
+            await api.post("/api/promo/upload", formData);   // CORRETTO
             alert("Promo caricate correttamente");
             loadPromo();
         } catch (err) {
@@ -53,7 +53,7 @@ export default function Promo() {
         if (!window.confirm("Sei sicuro di voler eliminare tutte le promo?")) return;
 
         try {
-            await axios.delete("/api/promo");   // ✅ CORRETTO
+            await api.delete("/api/promo");   // CORRETTO
             alert("Promo eliminate");
             loadPromo();
         } catch (err) {
