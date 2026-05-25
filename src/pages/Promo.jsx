@@ -13,13 +13,13 @@ export default function Promo() {
 
     const loadPromo = async () => {
         try {
-            const res = await axios.get("/promo");
+            const res = await axios.get("/api/promo");   // ✅ CORRETTO
             const data = res.data || [];
 
             const parsed = data.map((row) => ({
                 codice: row.codice,
                 nome: row.descrizione,
-                prezzo: row.prezzo, // EURO
+                prezzo: row.prezzo,
                 immagine: row.immagine,
             }));
 
@@ -40,7 +40,7 @@ export default function Promo() {
         formData.append("file", file);
 
         try {
-            await axios.post("/promo/upload", formData);
+            await axios.post("/api/promo/upload", formData);   // ✅ CORRETTO
             alert("Promo caricate correttamente");
             loadPromo();
         } catch (err) {
@@ -53,7 +53,7 @@ export default function Promo() {
         if (!window.confirm("Sei sicuro di voler eliminare tutte le promo?")) return;
 
         try {
-            await axios.delete("/promo");
+            await axios.delete("/api/promo");   // ✅ CORRETTO
             alert("Promo eliminate");
             loadPromo();
         } catch (err) {
@@ -118,4 +118,3 @@ export default function Promo() {
         </div>
     );
 }
-
