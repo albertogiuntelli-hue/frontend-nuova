@@ -36,7 +36,8 @@
 }
 
 /* 🔥 IMMAGINE RIDOTTA E SEMPRE VISIBILE */
-.promo-img {
+.promo-img,
+.promo-admin-image {
     width: 60px !important;
     height: 60px !important;
     object-fit: contain;

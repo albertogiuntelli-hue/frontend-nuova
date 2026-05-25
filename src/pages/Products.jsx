@@ -9,13 +9,12 @@ export default function Products() {
     useEffect(() => {
         const load = async () => {
             const data = await getProducts();
-            setProducts(data || []);
+            setProducts(Array.isArray(data) ? data : []);
             setLoading(false);
         };
         load();
     }, []);
 
-    // ✔ CORRETTO: PREZZO IN CENTESIMI → EURO
     const formatPrice = (value) => {
         if (value === undefined || value === null || isNaN(value)) return "—";
         return (value / 100).toFixed(2) + " €";
@@ -43,12 +42,8 @@ export default function Products() {
                         <tr key={index}>
                             <td>{p.codice}</td>
                             <td>{p.descrizione || "—"}</td>
-
-                            {/* ✔ PREZZO CORRETTO */}
                             <td>{formatPrice(p.prezzo)}</td>
-
                             <td>{p.a_peso === "S" ? "Sì" : "No"}</td>
-
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={p.immagine || "/plusmarket-logo.png"}

@@ -1,9 +1,9 @@
 import api from "./api";
 
-// GET /products
+// GET /api/products
 export const getProducts = async () => {
     try {
-        const res = await api.get("/products");
+        const res = await api.get("/api/products");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento prodotti:", error);
@@ -11,10 +11,10 @@ export const getProducts = async () => {
     }
 };
 
-// POST /products/upload
+// POST /api/products/upload
 export const uploadProducts = async (formData) => {
     try {
-        const res = await api.post("/products/upload", formData, {
+        const res = await api.post("/api/products/upload", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
         return res.data;
@@ -24,10 +24,10 @@ export const uploadProducts = async (formData) => {
     }
 };
 
-// DELETE /products/delete
+// DELETE /api/products/delete
 export const deleteProducts = async () => {
     try {
-        const res = await api.delete("/products/delete");
+        const res = await api.delete("/api/products/delete");
         return res.data;
     } catch (error) {
         console.error("Errore eliminazione prodotti:", error);

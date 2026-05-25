@@ -15,17 +15,18 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
         const formData = new FormData();
         formData.append("file", file);
 
-        // ExtraData viene aggiunto SOLO se presente (oggi non serve)
+        // ExtraData (se serve in futuro)
         for (const key in extraData) {
             if (extraData[key]) {
                 formData.append(key, extraData[key]);
             }
         }
 
+        // 🔥 ENDPOINT CORRETTI
         const endpoint =
             type === "products"
-                ? "/products/upload"
-                : "/promo/upload";
+                ? "/api/products/upload"
+                : "/api/promo/upload";
 
         try {
             const res = await api.post(endpoint, formData, {
@@ -45,15 +46,4 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
                 <input
                     type="file"
                     accept=".csv"
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
-
-                <button onClick={upload}>
-                    Carica CSV
-                </button>
-            </div>
-
-            {message && <p className="upload-message">{message}</p>}
-        </div>
-    );
-}
+                    onChange={(e) => setFile(e.target
