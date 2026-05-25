@@ -50,3 +50,10 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
                 <button onClick={upload}>
                     Carica CSV
                 </button>
+            </div>
+
+            {message && <p className="upload-message">{message}</p>}
+        </div>
+    );
+}
+
