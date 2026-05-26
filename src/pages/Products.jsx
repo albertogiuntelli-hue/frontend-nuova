@@ -17,7 +17,7 @@ export default function Products() {
 
     const formatPrice = (value) => {
         if (value === undefined || value === null || isNaN(value)) return "—";
-        return (value / 100).toFixed(2) + " €";
+        return (value / 100).toFixed(2).replace(".", ",") + " €";
     };
 
     if (loading) return <h2>Caricamento prodotti...</h2>;
@@ -41,13 +41,19 @@ export default function Products() {
                     {products.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice}</td>
-                            <td>{p.descrizione || "—"}</td>
+
+                            {/* Descrizione corretta */}
+                            <td>{p.nome || "—"}</td>
+
+                            {/* Prezzo convertito da centesimi a euro */}
                             <td>{formatPrice(p.prezzo)}</td>
+
                             <td>{p.a_peso === "S" ? "Sì" : "No"}</td>
+
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={p.immagine || "/plusmarket-logo.png"}
-                                    alt="Immagine prodotto"
+                                    alt={p.nome}
                                     style={{
                                         width: "70px",
                                         height: "70px",
