@@ -12,7 +12,8 @@ export default function Promo() {
 
     const loadPromo = async () => {
         try {
-            const res = await api.get("/api/promo");
+            // CORRETTO: niente /api qui
+            const res = await api.get("/promo");
             const data = res.data || [];
 
             const parsed = data.map((row) => ({
