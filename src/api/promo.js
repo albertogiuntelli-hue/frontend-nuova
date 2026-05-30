@@ -1,10 +1,10 @@
 // frontend/src/api/promo.js
 import api from "./api";
 
-// GET /api/promo
+// GET /promo
 export const getPromo = async () => {
     try {
-        const res = await api.get("/api/promo");
+        const res = await api.get("/promo");
         return Array.isArray(res.data) ? res.data : [];
     } catch (error) {
         console.error("Errore caricamento promo:", error);
@@ -12,10 +12,10 @@ export const getPromo = async () => {
     }
 };
 
-// POST /api/promo/upload
+// POST /promo/upload
 export const uploadPromo = async (formData) => {
     try {
-        const res = await api.post("/api/promo/upload", formData, {
+        const res = await api.post("/promo/upload", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
         return res.data;
@@ -25,20 +25,20 @@ export const uploadPromo = async (formData) => {
     }
 };
 
-// DELETE /api/promo/delete
+// DELETE /promo/delete
 export const deletePromo = async () => {
     try {
-        return await api.delete("/api/promo/delete");
+        return await api.delete("/promo/delete");
     } catch (error) {
         console.error("Errore eliminazione promo:", error);
         throw error;
     }
 };
 
-// GET /api/promo/dates
+// GET /promo/dates
 export const getPromoDates = async () => {
     try {
-        const res = await api.get("/api/promo/dates");
+        const res = await api.get("/promo/dates");
         return res.data || {};
     } catch (error) {
         console.error("Errore caricamento date promo:", error);
@@ -46,10 +46,10 @@ export const getPromoDates = async () => {
     }
 };
 
-// POST /api/promo/date
+// POST /promo/date
 export const savePromoDates = async (dates) => {
     try {
-        const res = await api.post("/api/promo/date", dates);
+        const res = await api.post("/promo/date", dates);
         return res.data;
     } catch (error) {
         console.error("Errore salvataggio date promo:", error);
