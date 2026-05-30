@@ -23,8 +23,8 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
 
         const endpoint =
             type === "products"
-                ? "/api/products/upload"
-                : "/api/promo/upload";
+                ? "/products/upload"
+                : "/promo/upload";
 
         try {
             const res = await api.post(endpoint, formData, {
@@ -56,4 +56,3 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
         </div>
     );
 }
-
