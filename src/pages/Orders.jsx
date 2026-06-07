@@ -79,9 +79,10 @@ export default function Orders() {
                                             ? p.prezzo_scontato
                                             : p.prezzo;
 
-                                    const subtotal = isPeso
-                                        ? (p.peso / 1000) * (prezzoUnit / 100)
-                                        : p.quantita * (prezzoUnit / 100);
+                                    // 🔥 CORREZIONE: niente divisione per 100
+                                    const subtotalCents = isPeso
+                                        ? (p.peso / 1000) * prezzoUnit
+                                        : p.quantita * prezzoUnit;
 
                                     return (
                                         <div key={i} className="prodotto-riga">
@@ -90,7 +91,7 @@ export default function Orders() {
                                             </div>
                                             <div className="prodotto-info">
                                                 <span>{qty}</span>
-                                                <span>€ {subtotal.toFixed(2)}</span>
+                                                <span>€ {(subtotalCents / 100).toFixed(2)}</span>
                                             </div>
                                         </div>
                                     );
