@@ -43,7 +43,7 @@ export default function Products() {
                             <td>{p.codice}</td>
 
                             {/* Descrizione corretta */}
-                            <td>{p.nome || "—"}</td>
+                            <td>{p.descrizione || "—"}</td>
 
                             {/* Prezzo convertito da centesimi a euro */}
                             <td>{formatPrice(p.prezzo)}</td>
@@ -53,7 +53,7 @@ export default function Products() {
                             <td style={{ textAlign: "center" }}>
                                 <img
                                     src={p.immagine || "/plusmarket-logo.png"}
-                                    alt={p.nome}
+                                    alt={p.descrizione}
                                     style={{
                                         width: "70px",
                                         height: "70px",
