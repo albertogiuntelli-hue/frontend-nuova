@@ -35,6 +35,84 @@ export default function Orders() {
         }
     };
 
+    // 🔵 FUNZIONE STAMPA ORDINE
+    const stampaOrdine = (order) => {
+        const logoUrl = "/logo.jpg"; // LOGO CORRETTO
+
+        const prodottiHtml = order.prodotti
+            .map((p) => {
+                const isPeso = p.tipo === "S";
+                const qty = isPeso ? `${p.peso} g` : `${p.quantita} pz`;
+
+                const prezzoUnit =
+                    p.prezzo_scontato > 0 ? p.prezzo_scontato : p.prezzo;
+
+                const subtotal = isPeso
+                    ? (p.peso / 1000) * prezzoUnit
+                    : p.quantita * prezzoUnit;
+
+                return `
+                    <tr>
+                        <td>${p.nome}</td>
+                        <td>${qty}</td>
+                        <td>€ ${prezzoUnit.toFixed(2)}</td>
+                        <td>€ ${subtotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            })
+            .join("");
+
+        const html = `
+            <html>
+            <head>
+                <title>Stampa Ordine</title>
+                <style>
+                    body { font-family: Arial; padding: 20px; }
+                    h2 { text-align: center; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+                    .logo { width: 180px; display: block; margin: 0 auto 20px auto; }
+                </style>
+            </head>
+            <body>
+                <img src="${logoUrl}" class="logo" />
+                <h2>Conferma Ordine</h2>
+
+                <p><strong>Cliente:</strong> ${order.cliente?.nome || ""} ${order.cliente?.cognome || ""}</p>
+                <p><strong>Telefono:</strong> ${order.cliente?.telefono || ""}</p>
+                <p><strong>Indirizzo:</strong> ${order.cliente?.indirizzo || ""}</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Prodotto</th>
+                            <th>Q.tà</th>
+                            <th>Prezzo</th>
+                            <th>Subtotale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${prodottiHtml}
+                    </tbody>
+                </table>
+
+                <h3 style="text-align:right; margin-top:20px;">
+                    Totale: € ${(order.totale / 100).toFixed(2)}
+                </h3>
+
+                <p style="margin-top:40px; text-align:center;">
+                    Grazie per aver ordinato da PlusMarket Giuntelli!
+                </p>
+            </body>
+            </html>
+        `;
+
+        const win = window.open("", "_blank");
+        win.document.write(html);
+        win.document.close();
+        win.print();
+    };
+
     if (loading) return <h2>Caricamento ordini...</h2>;
 
     return (
@@ -69,7 +147,6 @@ export default function Orders() {
                             <td className="prodotti-col">
                                 {order.prodotti?.map((p, i) => {
                                     const isPeso = p.tipo === "S";
-
                                     const qty = isPeso
                                         ? `${p.peso} g`
                                         : `${p.quantita} pz`;
@@ -79,8 +156,7 @@ export default function Orders() {
                                             ? p.prezzo_scontato
                                             : p.prezzo;
 
-                                    // 🔥 CORREZIONE: niente divisione per 100
-                                    const subtotalCents = isPeso
+                                    const subtotal = isPeso
                                         ? (p.peso / 1000) * prezzoUnit
                                         : p.quantita * prezzoUnit;
 
@@ -91,7 +167,7 @@ export default function Orders() {
                                             </div>
                                             <div className="prodotto-info">
                                                 <span>{qty}</span>
-                                                <span>€ {(subtotalCents / 100).toFixed(2)}</span>
+                                                <span>€ {subtotal.toFixed(2)}</span>
                                             </div>
                                         </div>
                                     );
@@ -142,6 +218,14 @@ export default function Orders() {
                                     }
                                 >
                                     Aggiorna
+                                </button>
+
+                                {/* 🔵 BOTTONE STAMPA */}
+                                <button
+                                    className="print-btn"
+                                    onClick={() => stampaOrdine(order)}
+                                >
+                                    Stampa
                                 </button>
                             </td>
                         </tr>
