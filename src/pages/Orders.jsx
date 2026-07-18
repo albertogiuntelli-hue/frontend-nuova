@@ -37,7 +37,7 @@ export default function Orders() {
 
     // 🔵 FUNZIONE STAMPA ORDINE
     const stampaOrdine = (order) => {
-        const logoUrl = "/logo.jpg"; // LOGO CORRETTO
+        const logoUrl = "/logo.jpg";
 
         const prodottiHtml = order.prodotti
             .map((p) => {
@@ -111,6 +111,39 @@ export default function Orders() {
         win.document.write(html);
         win.document.close();
         win.print();
+    };
+
+    // 🔵 INVIO WHATSAPP AUTOMATICO
+    const inviaWhatsApp = (order) => {
+        const telefono = order.cliente?.telefono;
+        if (!telefono) {
+            alert("Telefono cliente mancante");
+            return;
+        }
+
+        const prodottiMsg = order.prodotti
+            .map((p) => {
+                const isPeso = p.tipo === "S";
+                const qty = isPeso ? `${p.peso} g` : `${p.quantita} pz`;
+                const prezzoUnit = p.prezzo_scontato > 0 ? p.prezzo_scontato : p.prezzo;
+                const subtotal = isPeso
+                    ? (p.peso / 1000) * prezzoUnit
+                    : p.quantita * prezzoUnit;
+
+                return `• ${p.nome} — ${qty} — € ${subtotal.toFixed(2)}`;
+            })
+            .join("%0A");
+
+        const totaleMsg = (order.totale / 100).toFixed(2);
+
+        const msg =
+            `Conferma ordine PlusMarket:%0A%0A` +
+            `${prodottiMsg}%0A%0A` +
+            `Totale: € ${totaleMsg}%0A%0A` +
+            `Grazie per aver ordinato!`;
+
+        const url = `https://wa.me/${telefono}?text=${msg}`;
+        window.open(url, "_blank");
     };
 
     if (loading) return <h2>Caricamento ordini...</h2>;
@@ -220,12 +253,18 @@ export default function Orders() {
                                     Aggiorna
                                 </button>
 
-                                {/* 🔵 BOTTONE STAMPA */}
                                 <button
                                     className="print-btn"
                                     onClick={() => stampaOrdine(order)}
                                 >
                                     Stampa
+                                </button>
+
+                                <button
+                                    className="whatsapp-btn"
+                                    onClick={() => inviaWhatsApp(order)}
+                                >
+                                    WhatsApp
                                 </button>
                             </td>
                         </tr>
