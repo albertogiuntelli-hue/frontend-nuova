@@ -1,4 +1,3 @@
-// frontend/src/api/promo.js
 import api from "./api";
 
 // GET /promo
