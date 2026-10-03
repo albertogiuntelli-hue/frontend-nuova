@@ -16,8 +16,8 @@ export default function UploadCSV() {
         formData.append("file", file);
 
         try {
-            // 🔥 ROUTE CORRETTA
-            const res = await api.post("/promo/upload", formData, {
+            // 🔥 ROUTE CORRETTA PER IL TUO BACKEND
+            const res = await api.post("/api/promo/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
