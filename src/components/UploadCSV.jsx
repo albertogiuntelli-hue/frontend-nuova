@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../api/api";
 import "./UploadCSV.css";
 
-export default function UploadCSV() {
+export default function UploadCSV({ type = "products", extraData = {} }) {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
@@ -15,30 +15,42 @@ export default function UploadCSV() {
         const formData = new FormData();
         formData.append("file", file);
 
+        for (const key in extraData) {
+            if (extraData[key]) {
+                formData.append(key, extraData[key]);
+            }
+        }
+
+        const endpoint =
+            type === "products"
+                ? "/products/upload"
+                : "/promo/upload";
+
         try {
-            // 🔥 ROUTE CORRETTA PER IL TUO BACKEND
-            const res = await api.post("/api/promo/upload", formData, {
+            const res = await api.post(endpoint, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
-            setMessage(res.data.message || "File promo caricato con successo!");
+            setMessage(res.data.message || "File caricato con successo!");
         } catch (error) {
-            console.error("Errore upload promo:", error);
-            setMessage("Errore durante il caricamento del file promo.");
+            console.error("Errore upload CSV:", error);
+            setMessage("Errore durante il caricamento del file.");
         }
     };
 
     return (
-        <div className="upload-box">
-            <input
-                type="file"
-                accept=".csv"
-                onChange={(e) => setFile(e.target.files[0])}
-            />
+        <div className="upload-page">
+            <div className="upload-box">
+                <input
+                    type="file"
+                    accept=".csv"
+                    onChange={(e) => setFile(e.target.files[0])}
+                />
 
-            <button onClick={upload}>
-                Carica CSV Promo
-            </button>
+                <button onClick={upload}>
+                    Carica CSV
+                </button>
+            </div>
 
             {message && <p className="upload-message">{message}</p>}
         </div>
