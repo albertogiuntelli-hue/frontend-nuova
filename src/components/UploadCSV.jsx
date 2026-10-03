@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../api/api";
 import "./UploadCSV.css";
 
-export default function UploadCSV({ type = "products", extraData = {} }) {
+export default function UploadCSV() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
@@ -15,42 +15,30 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
         const formData = new FormData();
         formData.append("file", file);
 
-        for (const key in extraData) {
-            if (extraData[key]) {
-                formData.append(key, extraData[key]);
-            }
-        }
-
-        const endpoint =
-            type === "products"
-                ? "/products/upload"
-                : "/promo/upload";
-
         try {
-            const res = await api.post(endpoint, formData, {
+            // 🔥 ROUTE CORRETTA
+            const res = await api.post("/promo/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
-            setMessage(res.data.message || "File caricato con successo!");
+            setMessage(res.data.message || "File promo caricato con successo!");
         } catch (error) {
-            console.error("Errore upload CSV:", error);
-            setMessage("Errore durante il caricamento del file.");
+            console.error("Errore upload promo:", error);
+            setMessage("Errore durante il caricamento del file promo.");
         }
     };
 
     return (
-        <div className="upload-page">
-            <div className="upload-box">
-                <input
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
+        <div className="upload-box">
+            <input
+                type="file"
+                accept=".csv"
+                onChange={(e) => setFile(e.target.files[0])}
+            />
 
-                <button onClick={upload}>
-                    Carica CSV
-                </button>
-            </div>
+            <button onClick={upload}>
+                Carica CSV Promo
+            </button>
 
             {message && <p className="upload-message">{message}</p>}
         </div>
