@@ -12,15 +12,15 @@ export default function Promo() {
 
     const loadPromo = async () => {
         try {
-            // CORRETTO: niente /api qui
             const res = await api.get("/promo");
             const data = res.data || [];
 
             const parsed = data.map((row) => ({
                 codice: row.codice,
-                nome: row.descrizione || row.nome,
+                nome: row.nome,              // ✔ CORRETTO: il CSV usa "nome"
                 prezzo: row.prezzo,
-                immagine: row.immagine,
+                a_peso: row.a_peso,          // ✔ presente nel CSV
+                immagine: row.immagine       // ✔ presente nel CSV
             }));
 
             setPromo(parsed);
@@ -32,9 +32,7 @@ export default function Promo() {
     };
 
     const formatPrice = (value) => {
-        if (value === null || value === undefined || value === "" || isNaN(value)) {
-            return "—";
-        }
+        if (!value) return "—";
         return Number(value).toFixed(2).replace(".", ",") + " €";
     };
 
@@ -50,6 +48,7 @@ export default function Promo() {
                         <th>Codice</th>
                         <th>Nome</th>
                         <th>Prezzo</th>
+                        <th>A peso</th>
                         <th>Immagine</th>
                     </tr>
                 </thead>
@@ -57,8 +56,9 @@ export default function Promo() {
                     {promo.map((p, index) => (
                         <tr key={index}>
                             <td>{p.codice}</td>
-                            <td>{p.nome}</td>
+                            <td>{p.nome || "—"}</td>
                             <td>{formatPrice(p.prezzo)}</td>
+                            <td>{p.a_peso === "S" ? "Sì" : "No"}</td>
                             <td>
                                 <img
                                     src={p.immagine || "/placeholder.png"}
