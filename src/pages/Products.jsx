@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../api/products";
+import api from "../api/api";
 import "./Products.css";
 
 export default function Products() {
@@ -8,8 +8,12 @@ export default function Products() {
 
     useEffect(() => {
         const load = async () => {
-            const data = await getProducts();
-            setProducts(Array.isArray(data) ? data : []);
+            try {
+                const res = await api.get("/products");
+                setProducts(Array.isArray(res.data) ? res.data : []);
+            } catch (error) {
+                console.error("Errore caricamento prodotti:", error);
+            }
             setLoading(false);
         };
         load();

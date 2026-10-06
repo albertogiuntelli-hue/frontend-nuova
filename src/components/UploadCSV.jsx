@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../api/api";
 import "./UploadCSV.css";
 
-export default function UploadCSV({ type = "products", extraData = {} }) {
+export default function UploadCSV({ type = "products" }) {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
 
@@ -14,12 +14,6 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
 
         const formData = new FormData();
         formData.append("file", file);
-
-        for (const key in extraData) {
-            if (extraData[key]) {
-                formData.append(key, extraData[key]);
-            }
-        }
 
         const endpoint =
             type === "products"
@@ -39,18 +33,16 @@ export default function UploadCSV({ type = "products", extraData = {} }) {
     };
 
     return (
-        <div className="upload-page">
-            <div className="upload-box">
-                <input
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
+        <div className="upload-box">
+            <input
+                type="file"
+                accept=".csv"
+                onChange={(e) => setFile(e.target.files[0])}
+            />
 
-                <button onClick={upload}>
-                    Carica CSV
-                </button>
-            </div>
+            <button onClick={upload}>
+                Carica CSV {type === "products" ? "Prodotti" : "Promo"}
+            </button>
 
             {message && <p className="upload-message">{message}</p>}
         </div>

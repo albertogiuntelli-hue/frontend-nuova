@@ -17,10 +17,10 @@ export default function Promo() {
 
             const parsed = data.map((row) => ({
                 codice: row.codice,
-                nome: row.nome,              // ✔ CORRETTO: il CSV usa "nome"
+                nome: row.nome,
                 prezzo: row.prezzo,
-                a_peso: row.a_peso,          // ✔ presente nel CSV
-                immagine: row.immagine       // ✔ presente nel CSV
+                a_peso: row.a_peso,
+                immagine: row.immagine
             }));
 
             setPromo(parsed);
