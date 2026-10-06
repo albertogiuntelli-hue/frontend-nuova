@@ -1,50 +1,55 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api/api";
-import "./Products.css";
 
-export default function Products() {
+function Products() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const load = async () => {
-            try {
-                const res = await api.get("/products");
-                setProducts(Array.isArray(res.data) ? res.data : []);
-            } catch (error) {
-                console.error("Errore caricamento prodotti:", error);
-            }
-            setLoading(false);
-        };
-        load();
+        fetchProducts();
     }, []);
 
-    const formatPrice = (value) => {
-        if (!value) return "—";
-        return Number(value).toFixed(2).replace(".", ",") + " €";
+    const fetchProducts = async () => {
+        try {
+            const response = await api.get("/products");
+            setProducts(response.data);
+        } catch (error) {
+            console.error("Errore nel caricamento prodotti:", error);
+        }
     };
 
-    if (loading) return <h2>Caricamento prodotti...</h2>;
-
     return (
-        <div className="products-page">
-            <h2>Prodotti</h2>
+        <div className="page-container">
+            <h1 className="page-title">Prodotti</h1>
 
-            <table className="products-table">
+            <table className="data-table">
                 <thead>
                     <tr>
                         <th>Codice</th>
                         <th>Descrizione</th>
                         <th>Prezzo</th>
+                        <th>A peso</th>
+                        <th>Immagine</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {products.map((p, index) => (
-                        <tr key={index}>
-                            <td>{p.codice}</td>
-                            <td>{p.descrizione || "—"}</td>
-                            <td>{formatPrice(p.prezzo)}</td>
+                    {products.map((product) => (
+                        <tr key={product.codice}>
+                            <td>{product.codice}</td>
+                            <td>{product.descrizione}</td>
+
+                            {/* ⭐ FIX PREZZO: da centesimi → euro */}
+                            <td>{(product.prezzo / 100).toFixed(2)} €</td>
+
+                            <td>{product.a_peso === "S" ? "Si" : "No"}</td>
+
+                            <td>
+                                <img
+                                    src={product.immagine}
+                                    alt={product.descrizione}
+                                    className="product-image"
+                                />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -52,3 +57,5 @@ export default function Products() {
         </div>
     );
 }
+
+export default Products;
