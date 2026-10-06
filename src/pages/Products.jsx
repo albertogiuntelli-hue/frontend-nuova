@@ -27,8 +27,6 @@ function Products() {
                         <th>Codice</th>
                         <th>Descrizione</th>
                         <th>Prezzo</th>
-                        <th>A peso</th>
-                        <th>Immagine</th>
                     </tr>
                 </thead>
 
@@ -37,19 +35,7 @@ function Products() {
                         <tr key={product.codice}>
                             <td>{product.codice}</td>
                             <td>{product.descrizione}</td>
-
-                            {/* ⭐ FIX PREZZO: da centesimi → euro */}
                             <td>{(product.prezzo / 100).toFixed(2)} €</td>
-
-                            <td>{product.a_peso === "S" ? "Si" : "No"}</td>
-
-                            <td>
-                                <img
-                                    src={product.immagine}
-                                    alt={product.descrizione}
-                                    className="product-image"
-                                />
-                            </td>
                         </tr>
                     ))}
                 </tbody>
